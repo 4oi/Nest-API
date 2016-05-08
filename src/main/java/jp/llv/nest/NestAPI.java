@@ -45,35 +45,35 @@ public interface NestAPI {
     NestObject<?> get(String name) throws UndefinedVariableException;
 
     void del(String name) throws UnmodifiableVariableException;
-    
+
     void registerFunc(Object obj);
-    
-    Token[] parse(String command) throws CommandException;
 
-    CompletableFuture<NestObject<?>> execute(NestCommandSender sender, Token[] command, Binding binding) throws CommandException;
+    Token parse(String command) throws CommandException;
 
-    CompletableFuture<NestObject<?>> execute(NestCommandSender sender, NestList<?> command, Binding binding) throws CommandException;
-    
+    CompletableFuture<? extends NestObject<?>> execute(NestCommandSender sender, Token command, Binding binding) throws CommandException;
+
+    CompletableFuture<? extends NestObject<?>> execute(NestCommandSender sender, NestList<?> command, Binding binding) throws CommandException;
+
     Binding getGlobalBinding();
 
-    default CompletableFuture<NestObject<?>> execute(NestCommandSender sender, Token[] command) throws CommandException {
+    default CompletableFuture<? extends NestObject<?>> execute(NestCommandSender sender, Token command) throws CommandException {
         return this.execute(sender, command, this.getGlobalBinding());
     }
 
-    default CompletableFuture<NestObject<?>> execute(NestCommandSender sender, String command, Binding binding) throws CommandException {
+    default CompletableFuture<? extends NestObject<?>> execute(NestCommandSender sender, String command, Binding binding) throws CommandException {
         return this.execute(sender, this.parse(command), binding);
     }
 
-    default CompletableFuture<NestObject<?>> execute(NestCommandSender sender, String command) throws CommandException {
+    default CompletableFuture<? extends NestObject<?>> execute(NestCommandSender sender, String command) throws CommandException {
         return this.execute(sender, this.parse(command));
     }
 
-    default CompletableFuture<NestObject<?>> execute(NestCommandSender sender, NestList<?> command) throws CommandException {
+    default CompletableFuture<? extends NestObject<?>> execute(NestCommandSender sender, NestList<?> command) throws CommandException {
         return this.execute(sender, command, this.getGlobalBinding());
     }
 
     String getVersion();
-    
+
     Logger getLogger();
 
 }

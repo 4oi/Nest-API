@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2016 toyblocks.
@@ -23,9 +23,11 @@
  */
 package jp.llv.nest.command;
 
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import jp.llv.nest.command.exceptions.CommandException;
-import jp.llv.nest.command.obj.NestCommandSender;
-import jp.llv.nest.command.obj.NestList;
+import jp.llv.nest.command.exceptions.InternalException;
 import jp.llv.nest.command.obj.NestObject;
 import jp.llv.nest.command.obj.bind.Binding;
 
@@ -33,13 +35,38 @@ import jp.llv.nest.command.obj.bind.Binding;
  *
  * @author toyblocks
  */
-@FunctionalInterface
-public interface CommandExecutor {
-    
-    CommandExecution execute(NestCommandSender sender, Binding binding, NestObject<?> ... args) throws CommandException;
-    
-    default CommandExecution execute(NestCommandSender sender, Binding binding, NestList<?> args) throws CommandException {
-        return this.execute(sender, binding, args.toArray());
+public final class CommandExecution {
+
+    private final CompletableFuture<? extends NestObject<?>> result;
+    private final Binding binding;
+
+    public CommandExecution(CompletableFuture<? extends NestObject<?>> result, Binding binding) {
+        this.result = result;
+        this.binding = binding;
+    }
+
+    public CompletableFuture<? extends NestObject<?>> getResult() {
+        return result;
+    }
+
+    public Binding getBinding() {
+        return binding;
+    }
+
+    public NestObject<?> getResultNow() throws CommandException {
+        try {
+            return this.getResult().join();
+        } catch (CancellationException ex) {
+            throw new InternalException(ex);
+        } catch (CompletionException ex) {
+            if (ex.getCause() instanceof CommandException) {
+                throw (CommandException) ex.getCause();
+            } else if (ex.getCause().getCause() instanceof CommandException) {
+                throw (CommandException) ex.getCause().getCause();
+            } else {
+                throw new InternalException(ex);
+            }
+        }
     }
 
 }

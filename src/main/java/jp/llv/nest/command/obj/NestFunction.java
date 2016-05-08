@@ -25,6 +25,7 @@ package jp.llv.nest.command.obj;
 
 import jp.llv.nest.command.CommandExecutor;
 import jp.llv.nest.command.exceptions.CommandException;
+import jp.llv.nest.command.exceptions.InternalException;
 import jp.llv.nest.command.obj.bind.Binding;
 import jp.llv.nest.command.token.Token;
 
@@ -35,16 +36,22 @@ import jp.llv.nest.command.token.Token;
 public class NestFunction extends NestObjectAdapter<Void> implements NestExecutable<Void> {
 
     private final Binding binding;
-    private final Token[] command;
+    private final Token command;
 
-    public NestFunction(Binding binding, Token[] command) {
+    public NestFunction(Binding binding, Token command) {
         this.binding = binding;
         this.command = command;
     }
     
     @Override
     public NestObject<?> execute(CommandExecutor executor, NestCommandSender sender, Binding binding, NestObject<?>... args) throws CommandException {
-        return executor.execute(sender, binding, Token.allOf(executor, sender, binding, this.command)).join();
+        try {
+            return this.command.execute(executor, sender, binding).getResultNow();
+        } catch (CommandException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new InternalException(ex);
+        }
     }
 
     @Override
