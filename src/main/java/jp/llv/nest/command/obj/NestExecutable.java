@@ -23,9 +23,12 @@
  */
 package jp.llv.nest.command.obj;
 
+import java.util.Objects;
 import jp.llv.nest.command.CommandExecutor;
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.obj.bind.Binding;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  *
@@ -33,19 +36,19 @@ import jp.llv.nest.command.obj.bind.Binding;
  */
 public interface NestExecutable<E> extends NestObject<E> {
 
-    NestObject<?> execute(CommandExecutor executor, NestCommandSender sender, Binding binding, NestObject<?>... args) throws CommandException;
+    @Nullable NestObject<?> execute(@NotNull CommandExecutor executor, @NotNull NestCommandSender sender, @NotNull Binding binding, @NotNull NestObject<?>... args) throws CommandException;
 
-    String[] getDescription();
+    @NotNull String[] getDescription();
 
-    default String getPermission() {
+    default @Nullable String getPermission() {
         return null;
     }
 
-    default Class<? extends NestCommandSender> getAllowedSender() {
+    default @NotNull Class<? extends NestCommandSender> getAllowedSender() {
         return NestCommandSender.class;
     }
 
-    default Class<? extends NestObject> getReturnType() {
+    default @NotNull Class<? extends NestObject> getReturnType() {
         return NestObject.class;
     }
 
@@ -61,7 +64,9 @@ public interface NestExecutable<E> extends NestObject<E> {
         private final String group;
         private final boolean required;
 
-        public ArgDescription(Class<? extends NestObject> type, String name, boolean varArgs, String group, boolean required) {
+        public ArgDescription(@NotNull Class<? extends NestObject> type, @NotNull String name, boolean varArgs, String group, boolean required) {
+            Objects.requireNonNull(type);
+            Objects.requireNonNull(name);
             this.type = type;
             this.name = name;
             this.varArgs = varArgs;
@@ -69,11 +74,11 @@ public interface NestExecutable<E> extends NestObject<E> {
             this.required = required;
         }
 
-        public Class<? extends NestObject> getType() {
+        public @NotNull Class<? extends NestObject> getType() {
             return type;
         }
 
-        public String getName() {
+        public @NotNull String getName() {
             return name;
         }
 

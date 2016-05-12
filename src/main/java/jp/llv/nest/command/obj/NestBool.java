@@ -34,18 +34,19 @@ import jp.llv.nest.command.exceptions.TypeMismatchException;
 public final class NestBool extends NestObjectAdapter<Boolean> implements Serializable {
     
     public static final NestBool TRUE = new NestBool();
-    @Deprecated
     public static final NestBool FALSE = null;
 
     private NestBool() {
     }
 
     @Override
+    @Deprecated
     public Boolean unwrap() {
         return true;
     }
 
     @Override
+    @Deprecated
     public String toString() {
         return "true";
     }

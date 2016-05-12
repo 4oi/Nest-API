@@ -24,6 +24,7 @@
 package jp.llv.nest.command.obj;
 
 import jp.llv.nest.command.exceptions.TypeMismatchException;
+import org.jetbrains.annotations.NotNull;
 
 /**
  *
@@ -51,7 +52,7 @@ public final class NestInt extends NestObjectAdapter<Long> {
     }
     
     @Override
-    public Long unwrap() throws UnsupportedOperationException {
+    public @NotNull Long unwrap() throws UnsupportedOperationException {
         return this.value;
     }
 

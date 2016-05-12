@@ -24,6 +24,7 @@
 package jp.llv.nest.command.obj;
 
 import jp.llv.nest.command.exceptions.TypeMismatchException;
+import org.jetbrains.annotations.NotNull;
 
 /**
  *
@@ -51,7 +52,7 @@ public final class NestDecimal extends NestObjectAdapter<Double> {
     }
 
     @Override
-    public Double unwrap() throws UnsupportedOperationException {
+    public @NotNull Double unwrap() throws UnsupportedOperationException {
         return value;
     }
     

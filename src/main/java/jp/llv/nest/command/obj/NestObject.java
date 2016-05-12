@@ -25,6 +25,8 @@ package jp.llv.nest.command.obj;
 
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  *
@@ -32,13 +34,13 @@ import jp.llv.nest.command.exceptions.TypeMismatchException;
  */
 public interface NestObject<E> {
     
-    <T extends NestObject<?>> T to(Class<T> toClass) throws TypeMismatchException;
+    <T extends NestObject<?>> @Nullable T to(@NotNull Class<T> toClass) throws TypeMismatchException;
     
-    default E unwrap() throws UnsupportedOperationException {
+    default @Nullable E unwrap() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
     
-    public static <T extends NestObject<?>> T to(NestObject<?> from, Class<T> toClass) throws CommandException {
+    public static <T extends NestObject<?>> @Nullable T to(@Nullable NestObject<?> from,@NotNull  Class<T> toClass) throws CommandException {
         if (from == null) {
             return null;
         } else {
