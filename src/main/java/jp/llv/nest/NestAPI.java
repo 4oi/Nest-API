@@ -23,9 +23,12 @@
  */
 package jp.llv.nest;
 
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.logging.Logger;
 import jp.llv.nest.command.exceptions.CommandException;
+import jp.llv.nest.command.exceptions.InternalException;
 import jp.llv.nest.command.exceptions.UndefinedVariableException;
 import jp.llv.nest.command.exceptions.UnmodifiableVariableException;
 import jp.llv.nest.command.obj.NestCommandSender;
@@ -61,20 +64,33 @@ public interface NestAPI {
         return this.execute(sender, command, this.getGlobalBinding());
     }
 
-    default CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull String command, @NotNull Binding binding) throws CommandException {
-        return this.execute(sender, this.parse(command), binding);
-    }
-
     default CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull String command) throws CommandException {
         return this.execute(sender, this.parse(command));
     }
 
-    default CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull NestList<?> command) throws CommandException {
-        return this.execute(sender, command, this.getGlobalBinding());
+    default NestObject<?> executeNow(@NotNull NestCommandSender sender, @NotNull String command) throws CommandException {
+        return getResultNow(this.execute(sender, this.parse(command)));
     }
 
     @NotNull String getVersion();
 
     @NotNull Logger getLogger();
+    
+    public static NestObject<?> getResultNow(CompletableFuture<? extends NestObject<?>> future) throws CommandException {
+        try {
+            return future.join();
+        } catch (CancellationException ex) {
+            throw new InternalException(ex);
+        } catch (CompletionException ex) {
+            if (ex.getCause() instanceof CommandException) {
+                throw (CommandException) ex.getCause();
+            } else if (ex.getCause().getCause() instanceof CommandException) {
+                throw (CommandException) ex.getCause().getCause();
+            } else {
+                throw new InternalException(ex);
+            }
+        }
+        
+    }
 
 }

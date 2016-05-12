@@ -27,6 +27,7 @@ import java.util.Objects;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import jp.llv.nest.NestAPI;
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.InternalException;
 import jp.llv.nest.command.obj.NestObject;
@@ -57,19 +58,7 @@ public final class CommandExecution {
     }
 
     public NestObject<?> getResultNow() throws CommandException {
-        try {
-            return this.getResult().join();
-        } catch (CancellationException ex) {
-            throw new InternalException(ex);
-        } catch (CompletionException ex) {
-            if (ex.getCause() instanceof CommandException) {
-                throw (CommandException) ex.getCause();
-            } else if (ex.getCause().getCause() instanceof CommandException) {
-                throw (CommandException) ex.getCause().getCause();
-            } else {
-                throw new InternalException(ex);
-            }
-        }
+        return NestAPI.getResultNow(this.getResult());
     }
 
 }
