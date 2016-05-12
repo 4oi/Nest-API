@@ -35,4 +35,6 @@ public abstract class NestCommandSender<E> extends NestValueAdapter<E> {
     
     public abstract void sendMessage(String name);
     
+    public abstract boolean hasPermission(String permission);
+    
 }
