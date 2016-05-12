@@ -23,6 +23,7 @@
  */
 package jp.llv.nest.command;
 
+import java.util.Objects;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -30,6 +31,7 @@ import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.InternalException;
 import jp.llv.nest.command.obj.NestObject;
 import jp.llv.nest.command.obj.bind.Binding;
+import org.jetbrains.annotations.NotNull;
 
 /**
  *
@@ -40,16 +42,17 @@ public final class CommandExecution {
     private final CompletableFuture<? extends NestObject<?>> result;
     private final Binding binding;
 
-    public CommandExecution(CompletableFuture<? extends NestObject<?>> result, Binding binding) {
-        this.result = result;
+    public CommandExecution(CompletableFuture<? extends NestObject<?>> result, @NotNull Binding binding) {
+        this.result = result == null? CompletableFuture.completedFuture(null) : result;
+        Objects.requireNonNull(binding);
         this.binding = binding;
     }
 
-    public CompletableFuture<? extends NestObject<?>> getResult() {
+    public @NotNull CompletableFuture<? extends NestObject<?>> getResult() {
         return result;
     }
 
-    public Binding getBinding() {
+    public @NotNull Binding getBinding() {
         return binding;
     }
 
