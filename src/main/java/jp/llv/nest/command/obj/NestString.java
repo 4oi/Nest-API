@@ -39,7 +39,7 @@ public final class NestString extends NestValueAdapter<String> {
 
     @Override
     public <T extends NestObject<?>> T to(Class<T> toClass) throws TypeMismatchException {
-        if (this.getClass().isAssignableFrom(toClass)) {
+        if (toClass.isAssignableFrom(this.getClass())) {
             return (T) this;
         } else if (toClass == NestBool.class) {
             return (T) NestBool.of(!value.equals("nil") && !value.equals("false"));

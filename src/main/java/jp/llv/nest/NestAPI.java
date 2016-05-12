@@ -52,13 +52,15 @@ public interface NestAPI {
 
     void registerFunc(@NotNull Object obj);
 
-    @NotNull Token parse(@NotNull String command) throws CommandException;
+    @NotNull
+    Token parse(@NotNull String command) throws CommandException;
 
     CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull Token command, @NotNull Binding binding) throws CommandException;
 
     CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull NestList<?> command, @NotNull Binding binding) throws CommandException;
 
-    @NotNull Binding getGlobalBinding();
+    @NotNull
+    Binding getGlobalBinding();
 
     default CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull Token command) throws CommandException {
         return this.execute(sender, command, this.getGlobalBinding());
@@ -72,10 +74,12 @@ public interface NestAPI {
         return getResultNow(this.execute(sender, this.parse(command)));
     }
 
-    @NotNull String getVersion();
+    @NotNull
+    String getVersion();
 
-    @NotNull Logger getLogger();
-    
+    @NotNull
+    Logger getLogger();
+
     public static NestObject<?> getResultNow(CompletableFuture<? extends NestObject<?>> future) throws CommandException {
         try {
             return future.join();
@@ -90,7 +94,7 @@ public interface NestAPI {
                 throw new InternalException(ex);
             }
         }
-        
+
     }
 
 }

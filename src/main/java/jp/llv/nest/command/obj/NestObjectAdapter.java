@@ -36,7 +36,7 @@ public abstract class NestObjectAdapter<E> implements NestObject<E> {
 
     protected <T extends NestObject> T to(Class<T> toClass, Map.Entry<? extends Class<?>, ? extends Supplier<?>>... caster) throws TypeMismatchException {
         Objects.requireNonNull(toClass);
-        if (this.getClass().isAssignableFrom(toClass)) {
+        if (toClass.isAssignableFrom(this.getClass())) {
             return (T) this;
         } else if (caster != null) {
             for (Map.Entry<? extends Class<?>, ? extends Supplier<?>> c : caster) {
