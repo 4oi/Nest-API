@@ -29,6 +29,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.jetbrains.annotations.NotNull;
 
 /**
  *
@@ -40,10 +41,10 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Module {
     
-    String name();
+    @NotNull String name();
     
     int version();
     
-    String author();
+    @NotNull String author();
     
 }
