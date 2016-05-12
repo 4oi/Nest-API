@@ -29,7 +29,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Objects;
 import jp.llv.nest.command.Arg;
-import jp.llv.nest.command.Command;
 import jp.llv.nest.command.CommandExecutor;
 import jp.llv.nest.command.exceptions.ArgMismatchException;
 import jp.llv.nest.command.exceptions.CommandException;
@@ -37,6 +36,7 @@ import jp.llv.nest.command.exceptions.InsufficientArgumentsException;
 import jp.llv.nest.command.exceptions.InternalException;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import jp.llv.nest.command.obj.bind.Binding;
+import jp.llv.nest.command.Func;
 
 /**
  *
@@ -46,7 +46,7 @@ public class JavaMethod extends NestObjectAdapter<Method> implements NestExecuta
 
     private final Object callee;
     private final Method method;
-    private final Command command;
+    private final Func command;
     private final String name;
     private final String[] aliases;
     private final Class<? extends NestObject<?>> returnType;
@@ -58,7 +58,7 @@ public class JavaMethod extends NestObjectAdapter<Method> implements NestExecuta
         this.callee = callee;
         this.method = method;
         method.setAccessible(true);
-        if (!method.isAnnotationPresent(Command.class)) {
+        if (!method.isAnnotationPresent(Func.class)) {
             throw new IllegalArgumentException("No annotation present");
         } else if (method.getReturnType() == void.class) {
             this.returnType = null;
@@ -67,7 +67,7 @@ public class JavaMethod extends NestObjectAdapter<Method> implements NestExecuta
         } else {
             throw new IllegalArgumentException("Invalid return type");
         }
-        this.command = method.getAnnotation(Command.class);
+        this.command = method.getAnnotation(Func.class);
         this.descs = getDescription(method.getParameters());
         this.name = "".equalsIgnoreCase(this.command.name()) ? method.getName() : this.command.name();
         this.aliases = this.command.aliases();

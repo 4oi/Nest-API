@@ -21,30 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jp.llv.nest.command.exceptions;
+package jp.llv.nest.command;
 
-import jp.llv.nest.command.obj.NestObject;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *
  * @author toyblocks
  */
-public class TypeMismatchException extends CommandException {
-
-    public TypeMismatchException(String string) {
-        super(string);
-    }
-
-    public TypeMismatchException(String string, Throwable thrwbl) {
-        super(string, thrwbl);
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.METHOD})
+@Documented
+public @interface Func {
     
-    public TypeMismatchException(NestObject object, Class<? extends NestObject> clazz) {
-        this((object == null ? "null" : object.getClass().getName())+" can't be cast to "+clazz.getName());
-    }
+    String name() default "";
     
-    public TypeMismatchException(NestObject object, Class<? extends NestObject> clazz, Throwable thrwbl) {
-        this((object == null ? "null" : object.getClass().getName())+" can't be cast to "+clazz.getName(), thrwbl);
-    }
+    String[] aliases() default {};
+    
+    //description
+    String[] value();
+    
+    String permission() default "";
     
 }
