@@ -26,6 +26,7 @@ package jp.llv.nest.command.obj;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
+import org.jetbrains.annotations.NotNull;
 
 /**
  *
@@ -33,7 +34,7 @@ import jp.llv.nest.command.exceptions.TypeMismatchException;
  */
 public final class NestString extends NestValueAdapter<String> {
     
-    public NestString(String value) {
+    public NestString(@NotNull String value) {
         super(value);
     }
 

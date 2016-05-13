@@ -46,7 +46,7 @@ public class NestFunction extends NestObjectAdapter<Void> implements NestExecuta
     @Override
     public NestObject<?> execute(CommandExecutor executor, NestCommandSender sender, Binding binding, NestObject<?>... args) throws CommandException {
         try {
-            return this.command.execute(executor, sender, binding).getResultNow();
+            return this.command.execute(executor, sender, this.binding).getResultNow();
         } catch (CommandException ex) {
             throw ex;
         } catch (Exception ex) {

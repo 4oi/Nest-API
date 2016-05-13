@@ -38,7 +38,7 @@ public final class NestInt extends NestObjectAdapter<Long> {
         this.value = value;
     }
     
-    public NestInt(String value) throws TypeMismatchException {
+    public NestInt(@NotNull String value) throws TypeMismatchException {
         try {
             this.value = Long.parseLong(value);
         } catch(NumberFormatException ex) {

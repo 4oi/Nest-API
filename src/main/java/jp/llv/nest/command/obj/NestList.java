@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 /**
  *
@@ -46,11 +47,11 @@ public final class NestList<V extends NestObject<?>> extends  NestValueAdapter<L
         }
     }
     
-    public NestList(Collection<? extends V> values) {
+    public NestList(@NotNull Collection<? extends V> values) {
         super(new ArrayList<>(values));
     }
     
-    public NestList(V ... values) {
+    public NestList(@NotNull V ... values) {
         super(new ArrayList<>(Arrays.asList(values)));
     }
 

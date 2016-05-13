@@ -24,6 +24,7 @@
 package jp.llv.nest.command.obj;
 
 import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 
 /**
  *
@@ -33,18 +34,18 @@ public abstract class NestValueAdapter<E> extends NestObjectAdapter<E> {
     
     protected final E value;
 
-    public NestValueAdapter(E value) {
+    public NestValueAdapter(@NotNull E value) {
         Objects.requireNonNull(value);
         this.value = value;
     }
 
     @Override
-    public E unwrap()  {
+    public @NotNull E unwrap()  {
         return this.value;
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return Objects.toString(this.value);
     }
 

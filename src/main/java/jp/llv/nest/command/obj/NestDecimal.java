@@ -38,7 +38,7 @@ public final class NestDecimal extends NestObjectAdapter<Double> {
         this.value = value;
     }
     
-    public NestDecimal(String value) throws TypeMismatchException {
+    public NestDecimal(@NotNull String value) throws TypeMismatchException {
         try {
             this.value = Double.parseDouble(value);
         } catch(NumberFormatException ex) {
