@@ -45,6 +45,6 @@ public @interface Func {
     //description
     String[] value();
     
-    String permission() default "";
+    String perm() default "";
     
 }
