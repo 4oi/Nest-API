@@ -23,12 +23,9 @@
  */
 package jp.llv.nest;
 
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.logging.Logger;
 import jp.llv.nest.command.exceptions.CommandException;
-import jp.llv.nest.command.exceptions.InternalException;
 import jp.llv.nest.command.exceptions.UndefinedVariableException;
 import jp.llv.nest.command.exceptions.UnmodifiableVariableException;
 import jp.llv.nest.command.obj.NestCommandSender;
@@ -83,18 +80,9 @@ public interface NestAPI {
     public static NestObject<?> getResultNow(CompletableFuture<? extends NestObject<?>> future) throws CommandException {
         try {
             return future.join();
-        } catch (CancellationException ex) {
-            throw new InternalException(ex);
-        } catch (CompletionException ex) {
-            if (ex.getCause() instanceof CommandException) {
-                throw (CommandException) ex.getCause();
-            } else if (ex.getCause().getCause() instanceof CommandException) {
-                throw (CommandException) ex.getCause().getCause();
-            } else {
-                throw new InternalException(ex);
-            }
+        } catch (Exception ex) {
+            throw CommandException.toCommandException(ex);
         }
-
     }
 
 }

@@ -49,4 +49,15 @@ public class CommandException extends Exception {
         super(string, thrwbl, bln, bln1);
     }
     
+    public static CommandException toCommandException(Throwable thrown) {
+        Throwable t = thrown;
+        do {
+            if (t instanceof CommandException) {
+                return (CommandException) t;
+            }
+            t = t.getCause();
+        } while(t != null);
+        return new InternalException(thrown);
+    }
+    
 }
