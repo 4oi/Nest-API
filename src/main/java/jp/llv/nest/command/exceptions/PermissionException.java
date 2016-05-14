@@ -29,12 +29,12 @@ package jp.llv.nest.command.exceptions;
  */
 public class PermissionException extends CommandException {
 
-    @Deprecated
     public PermissionException() {
+        super("Not enough permission");
     }
 
     public PermissionException(String string) {
-        super(string);
+        super("Not enough permission: '"+string+"'");
     }
     
 }
