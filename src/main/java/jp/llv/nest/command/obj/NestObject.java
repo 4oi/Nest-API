@@ -34,13 +34,13 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface NestObject<E> {
     
-    <T extends NestObject<?>> @Nullable T to(@NotNull Class<T> toClass) throws TypeMismatchException;
+    <T extends NestObject<?>> T to(@NotNull Class<T> toClass) throws TypeMismatchException;
     
     default @Nullable E unwrap() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
     
-    public static <T extends NestObject<?>> @Nullable T to(@Nullable NestObject<?> from,@NotNull  Class<T> toClass) throws CommandException {
+    public static <T extends NestObject<?>> T to(@Nullable NestObject<?> from,@NotNull  Class<T> toClass) throws CommandException {
         if (from == null) {
             return null;
         } else {
