@@ -34,7 +34,7 @@ import java.lang.annotation.Target;
  * @author toyblocks
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.CONSTRUCTOR)
+@Target(ElementType.PARAMETER)
 @Documented
 public @interface ReqVer {
     
