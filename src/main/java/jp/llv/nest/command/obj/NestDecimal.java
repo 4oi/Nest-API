@@ -47,7 +47,7 @@ public final class NestDecimal extends NestObjectAdapter<Double> implements Comp
     }
 
     @Override
-    public <T extends NestObject<?>> T to(Class<T> toClass) throws TypeMismatchException {
+    public <T> T to(Class<T> toClass) throws TypeMismatchException {
         return super.to(toClass, ifClass(NestInt.class, () -> new NestInt((long) value)));
     }
 

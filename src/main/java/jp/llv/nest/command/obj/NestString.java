@@ -39,14 +39,14 @@ public final class NestString extends NestValueAdapter<String> {
     }
 
     @Override
-    public <T extends NestObject<?>> T to(Class<T> toClass) throws TypeMismatchException {
+    public <T> T to(Class<T> toClass) throws TypeMismatchException {
         if (toClass.isAssignableFrom(this.getClass())) {
             return (T) this;
         } else if (toClass == NestBool.class) {
             return (T) NestBool.of(!value.equals("nil") && !value.equals("false"));
         } else {
             try {
-                Constructor<? extends NestObject<?>> c = toClass.getConstructor(String.class);
+                Constructor<?> c = toClass.getConstructor(String.class);
                 return (T) c.newInstance(this.value);
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             }

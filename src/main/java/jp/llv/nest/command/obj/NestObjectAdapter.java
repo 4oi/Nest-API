@@ -34,7 +34,7 @@ import jp.llv.nest.command.exceptions.TypeMismatchException;
  */
 public abstract class NestObjectAdapter<E> implements NestObject<E> {
 
-    protected <T extends NestObject> T to(Class<T> toClass, Map.Entry<? extends Class<?>, ? extends Supplier<?>>... caster) throws TypeMismatchException {
+    protected <T> T to(Class<T> toClass, Map.Entry<? extends Class<?>, ? extends Supplier<?>>... caster) throws TypeMismatchException {
         Objects.requireNonNull(toClass);
         if (toClass.isAssignableFrom(this.getClass())) {
             return (T) this;
@@ -56,7 +56,7 @@ public abstract class NestObjectAdapter<E> implements NestObject<E> {
     }
 
     @Override
-    public <T extends NestObject<?>> T to(Class<T> toClass) throws TypeMismatchException {
+    public <T> T to(Class<T> toClass) throws TypeMismatchException {
         return this.to(toClass, (Map.Entry<? extends Class<?>, ? extends Supplier<?>>[]) null);
     }
 

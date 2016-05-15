@@ -34,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface NestObject<E> {
     
-    <T extends NestObject<?>> T to(@NotNull Class<T> toClass) throws TypeMismatchException;
+    <T> T to(@NotNull Class<T> toClass) throws TypeMismatchException;
     
     default @Nullable E unwrap() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();

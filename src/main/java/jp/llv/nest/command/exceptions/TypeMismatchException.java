@@ -39,11 +39,11 @@ public class TypeMismatchException extends CommandException {
         super(string, thrwbl);
     }
     
-    public TypeMismatchException(NestObject object, Class<? extends NestObject> clazz) {
+    public TypeMismatchException(NestObject object, Class<?> clazz) {
         this((object == null ? "null" : object.getClass().getName())+" can't be cast to "+clazz.getName());
     }
     
-    public TypeMismatchException(NestObject object, Class<? extends NestObject> clazz, Throwable thrwbl) {
+    public TypeMismatchException(NestObject object, Class<?> clazz, Throwable thrwbl) {
         this((object == null ? "null" : object.getClass().getName())+" can't be cast to "+clazz.getName(), thrwbl);
     }
     
