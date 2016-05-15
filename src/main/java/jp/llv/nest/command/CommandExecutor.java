@@ -38,7 +38,7 @@ public interface CommandExecutor {
     
     CommandExecution execute(NestCommandSender sender, Binding binding, NestObject<?> ... args) throws CommandException;
     
-    default CommandExecution execute(NestCommandSender sender, Binding binding, NestList<?> args) throws CommandException {
+    default CommandExecution execute(NestCommandSender sender, Binding binding, NestList args) throws CommandException {
         return this.execute(sender, binding, args.toArray());
     }
 

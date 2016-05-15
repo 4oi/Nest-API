@@ -52,7 +52,7 @@ public final class NestString extends NestValueAdapter<String> {
             }
         }
         if (NestList.class.isAssignableFrom(toClass)) {
-            return (T) new NestList<>(this);
+            return (T) new NestList(this);
         }
         throw new TypeMismatchException(this, toClass);
     }

@@ -39,7 +39,7 @@ public interface Token {
 
     CommandExecution execute(CommandExecutor executor, NestCommandSender sender, Binding binding);
 
-    public static CompletableFuture<NestList<?>> allOf(CompletableFuture<? extends NestObject<?>>... elements) {
+    public static CompletableFuture<NestList> allOf(CompletableFuture<? extends NestObject<?>>... elements) {
         return CompletableFuture.allOf(elements).thenApply(v -> {
             NestObject<?>[] result = new NestObject[elements.length];
             for (int i = 0; i < elements.length; i++) {
@@ -49,7 +49,7 @@ public interface Token {
         });
     }
 
-    public static CompletableFuture<NestList<?>> allOf(CommandExecutor executor, NestCommandSender sender, Binding binding, Token... elements) {
+    public static CompletableFuture<NestList> allOf(CommandExecutor executor, NestCommandSender sender, Binding binding, Token... elements) {
         CompletableFuture[] result = new CompletableFuture[elements.length];
         for (int i = 0; i < elements.length; i++) {
             result[i] = elements[i].execute(executor, sender, binding).getResult();

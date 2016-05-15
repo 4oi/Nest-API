@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import jp.llv.nest.command.exceptions.UndefinedVariableException;
 import jp.llv.nest.command.obj.bind.KeyedValueSet;
@@ -37,30 +39,37 @@ import jp.llv.nest.command.obj.bind.KeyedValueSet;
  *
  * @author toyblocks
  */
-public final class NestHash<K extends NestObject<?>, V extends NestObject<?>> extends NestObjectAdapter<Map<K, V>> implements KeyedValueSet<Map<K, V>> {
+public final class NestHash extends NestObjectAdapter<Map<NestObject<?>, NestObject<?>>> implements KeyedValueSet<Map<NestObject<?>, NestObject<?>>> {
 
-    private final Map<K, V> values;
+    private final Map<NestObject<?>, NestObject<?>> values;
     
     public NestHash() {
         this.values = new HashMap<>();
     }
     
-    public NestHash(Map<K, V> source) {
+    public NestHash(Map<NestObject<?>, NestObject<?>> source) {
         this.values = new HashMap<>(source);
     }
     
-    public V get(K key) {
+    public NestHash(PairedValue ... entries) {
+        this();
+        for (PairedValue pv : entries) {
+            this.values.put(pv.getKey(), pv.getValue());
+        }
+    }
+    
+    public NestObject<?> get(NestObject<?> key) {
         return this.values.get(key);
     }
 
     @Override
-    public V get(NestString key) throws UndefinedVariableException {
+    public NestObject<?> get(NestString key) throws UndefinedVariableException {
         if (key == null) {
             return values.get(null);
         }
-        Iterator<Map.Entry<K, V>> it = this.values.entrySet().iterator();
+        Iterator<Map.Entry<NestObject<?>, NestObject<?>>> it = this.values.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<K, V> e = it.next();
+            Map.Entry<NestObject<?>, NestObject<?>> e = it.next();
             if (Objects.hashCode(e) == key.hashCode() && key.equals(e)) {
                 return e.getValue();
             }
@@ -68,12 +77,12 @@ public final class NestHash<K extends NestObject<?>, V extends NestObject<?>> ex
         throw new UndefinedVariableException(this, key.toString());
     }
     
-    public void set(K key, V value) {
+    public void set(NestObject<?> key, NestObject<?> value) {
         this.values.put(key, value);
     }
     
     @Override
-    public Map<K, V> unwrap() throws UnsupportedOperationException {
+    public Map<NestObject<?>, NestObject<?>> unwrap() throws UnsupportedOperationException {
         return Collections.unmodifiableMap(values);
     }
 
@@ -92,6 +101,52 @@ public final class NestHash<K extends NestObject<?>, V extends NestObject<?>> ex
                 .filter(k -> k instanceof NestString)
                 .map(NestObject::toString)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.values);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final NestHash other = (NestHash) obj;
+        return Objects.equals(this.values, other.values);
+    }
+
+    public boolean containsKey(NestObject<?> key) {
+        return values.containsKey(key);
+    }
+
+    public boolean containsValue(NestObject<?> value) {
+        return values.containsValue(value);
+    }
+
+    public NestObject<?> remove(NestObject<?> key) {
+        return values.remove(key);
+    }
+
+    public Collection<NestObject<?>> values() {
+        return values.values();
+    }
+
+    public Set<Map.Entry<NestObject<?>, NestObject<?>>> entrySet() {
+        return values.entrySet();
+    }
+
+    public void forEach(BiConsumer<? super NestObject<?>, ? super NestObject<?>> action) {
+        values.forEach(action);
     }
     
 }

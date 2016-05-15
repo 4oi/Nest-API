@@ -26,15 +26,17 @@ package jp.llv.nest.command.obj;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 
 /**
  *
  * @author toyblocks
  */
-public final class NestList<V extends NestObject<?>> extends  NestValueAdapter<List<V>> {
+public final class NestList extends  NestValueAdapter<List<NestObject<?>>> {
     
     public NestList() {
         super(new ArrayList<>());
@@ -47,25 +49,65 @@ public final class NestList<V extends NestObject<?>> extends  NestValueAdapter<L
         }
     }
     
-    public NestList(@NotNull Collection<? extends V> values) {
+    public NestList(@NotNull Collection<? extends NestObject<?>> values) {
         super(new ArrayList<>(values));
     }
     
-    public NestList(@NotNull V ... values) {
+    public NestList(@NotNull NestObject<?> ... values) {
         super(new ArrayList<>(Arrays.asList(values)));
     }
 
     @Override
-    public List<V> unwrap() {
-        return Collections.unmodifiableList(super.value);
+    public List<NestObject<?>> unwrap() {
+        return super.value;
     }
     
     public int size() {
         return this.value.size();
     }
     
-    public NestObject<V>[] toArray() {
+    public NestObject<NestObject<?>>[] toArray() {
         return this.value.toArray(new NestObject[this.value.size()]);
+    }
+
+    public boolean isEmpty() {
+        return value.isEmpty();
+    }
+
+    public boolean contains(NestObject<?> o) {
+        return value.contains(o);
+    }
+
+    public Iterator<NestObject<?>> iterator() {
+        return value.iterator();
+    }
+
+    public boolean add(NestObject<?> e) {
+        return value.add(e);
+    }
+
+    public boolean addAll(Collection<? extends NestObject<?>> c) {
+        return value.addAll(c);
+    }
+
+    public NestObject<?> get(int index) {
+        return value.get(index);
+    }
+
+    public NestObject<?> set(int index, NestObject<?> element) {
+        return value.set(index, element);
+    }
+
+    public Stream<NestObject<?>> stream() {
+        return value.stream();
+    }
+
+    public Stream<NestObject<?>> parallelStream() {
+        return value.parallelStream();
+    }
+
+    public void forEach(Consumer<? super NestObject<?>> action) {
+        value.forEach(action);
     }
     
 }

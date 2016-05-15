@@ -54,7 +54,7 @@ public interface NestAPI {
 
     CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull Token command, @NotNull Binding binding) throws CommandException;
 
-    CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull NestList<?> command, @NotNull Binding binding) throws CommandException;
+    CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull NestList command, @NotNull Binding binding) throws CommandException;
 
     @NotNull
     Binding getGlobalBinding();
