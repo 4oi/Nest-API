@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author toyblocks
  */
-public final class NestInt extends NestObjectAdapter<Long> {
+public final class NestInt extends NestObjectAdapter<Long> implements Comparable<NestInt>{
 
     private final long value;
 
@@ -79,6 +79,11 @@ public final class NestInt extends NestObjectAdapter<Long> {
     @Override
     public String toString() {
         return Long.toString(value);
+    }
+
+    @Override
+    public int compareTo(NestInt o) {
+        return Long.compare(this.value, o.value);
     }
     
 }

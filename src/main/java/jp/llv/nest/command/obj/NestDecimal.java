@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author toyblocks
  */
-public final class NestDecimal extends NestObjectAdapter<Double> {
+public final class NestDecimal extends NestObjectAdapter<Double> implements Comparable<NestDecimal>{
     
     private final double value;
 
@@ -79,6 +79,11 @@ public final class NestDecimal extends NestObjectAdapter<Double> {
         }
         final NestDecimal other = (NestDecimal) obj;
         return Double.doubleToLongBits(this.value) == Double.doubleToLongBits(other.value);
+    }
+
+    @Override
+    public int compareTo(NestDecimal o) {
+        return Double.compare(this.value, o.value);
     }
     
 }
