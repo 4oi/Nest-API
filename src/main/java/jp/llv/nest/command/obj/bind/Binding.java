@@ -65,6 +65,8 @@ public interface Binding<E> extends KeyedValueSet<E> {
     
     Binding newChild();
     
+    Binding getParent();
+    
     void del(String key) throws UnmodifiableVariableException;
     
 }
