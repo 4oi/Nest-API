@@ -27,6 +27,8 @@ import jp.llv.nest.command.exceptions.UndefinedVariableException;
 import jp.llv.nest.command.exceptions.UnmodifiableVariableException;
 import jp.llv.nest.command.obj.NestObject;
 import jp.llv.nest.command.obj.NestString;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  *
@@ -34,10 +36,10 @@ import jp.llv.nest.command.obj.NestString;
  */
 public interface Binding<E> extends KeyedValueSet<E> {
     
-    NestObject<?> get(String key) throws UndefinedVariableException;
+    @Nullable NestObject<?> get(String key) throws UndefinedVariableException;
     
     @Override
-    default NestObject<?> get(NestString key) throws UndefinedVariableException {
+    default @Nullable NestObject<?> get(NestString key) throws UndefinedVariableException {
         return this.get(key.unwrap());
     }
     
@@ -45,27 +47,29 @@ public interface Binding<E> extends KeyedValueSet<E> {
         return this.keySet().contains(key);
     }
     
-    void set(String key, NestObject<?> value) throws UnmodifiableVariableException;
+    void set(String key, @Nullable NestObject<?> value) throws UnmodifiableVariableException;
     
-    default void setUniqueValue(String key, NestObject<?> value) throws UnmodifiableVariableException {
+    default void setUniqueValue(String key, @Nullable NestObject<?> value) throws UnmodifiableVariableException {
         this.set(key+"@"+System.identityHashCode(this), value);
     }
     
-    default void setUniqueValue(NestString key, NestObject<?> value) throws UnmodifiableVariableException {
+    default void setUniqueValue(NestString key, @Nullable NestObject<?> value) throws UnmodifiableVariableException {
         this.setUniqueValue(key.unwrap(), value);
     }
     
-    default NestObject<?> getUniqueValue(String key) throws UndefinedVariableException {
+    default @Nullable NestObject<?> getUniqueValue(String key) throws UndefinedVariableException {
         return this.get(key+"@"+System.identityHashCode(this));
     }
     
-    default NestObject<?> getUniqueValue(NestString key) throws UndefinedVariableException {
+    default @Nullable NestObject<?> getUniqueValue(NestString key) throws UndefinedVariableException {
         return this.getUniqueValue(key.unwrap());
     }
     
-    Binding newChild();
+    @NotNull Binding newChild();
     
-    Binding getParent();
+    default @Nullable Binding getParent() {
+        return null;
+    }
     
     void del(String key) throws UnmodifiableVariableException;
     
