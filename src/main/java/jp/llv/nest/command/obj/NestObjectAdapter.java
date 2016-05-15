@@ -40,7 +40,7 @@ public abstract class NestObjectAdapter<E> implements NestObject<E> {
             return (T) this;
         } else if (caster != null) {
             for (Map.Entry<? extends Class<?>, ? extends Supplier<?>> c : caster) {
-                if (c.getKey() == toClass) {
+                if (toClass.isAssignableFrom(c.getKey())) {
                     return (T) c.getValue().get();
                 }
             }
