@@ -42,7 +42,11 @@ public interface NestObject<E> {
     
     public static <T extends NestObject<?>> T to(@Nullable NestObject<?> from,@NotNull  Class<T> toClass) throws CommandException {
         if (from == null) {
-            return null;
+            if (toClass == NestString.class) {
+                return (T) new NestString("nil");
+            } else {
+                return null;
+            }
         } else {
             return from.to(toClass);
         }
