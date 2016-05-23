@@ -43,10 +43,10 @@ public class NestCommandRoot extends NestObjectAdapter<Void> implements NestExec
     
     @Override
     public NestObject<?> execute(CommandExecutor executor, NestCommandSender sender, Binding binding, NestObject<?>... args) throws CommandException {
-        if (args.length < 1) {
+        if (args.length < 2) {
             throw new InsufficientArgumentsException();
         }
-        String key = args[0].to(NestString.class).unwrap();
+        String key = args[1].to(NestString.class).unwrap();
         if (!this.subCommands.containsKey(key)) {
             throw new UndefinedVariableException("No such subcommand");
         }
