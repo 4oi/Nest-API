@@ -26,6 +26,8 @@ package jp.llv.nest.command.obj;
 import java.io.Serializable;
 import java.util.Objects;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  *
@@ -33,21 +35,21 @@ import jp.llv.nest.command.exceptions.TypeMismatchException;
  */
 public final class NestBool extends NestObjectAdapter<Boolean> implements Serializable {
     
-    public static final NestBool TRUE = new NestBool();
-    public static final NestBool FALSE = null;
+    public static final @NotNull NestBool TRUE = new NestBool();
+    public static final @Nullable NestBool FALSE = null;
 
     private NestBool() {
     }
 
     @Override
     @Deprecated
-    public Boolean unwrap() {
+    public @NotNull Boolean unwrap() {
         return true;
     }
 
     @Override
     @Deprecated
-    public String toString() {
+    public @NotNull String toString() {
         return "true";
     }
 
@@ -71,7 +73,7 @@ public final class NestBool extends NestObjectAdapter<Boolean> implements Serial
         return b == null ? "false" : b.toString();
     }
     
-    public static NestBool of(String name) throws TypeMismatchException {
+    public static @Nullable NestBool of(String name) throws TypeMismatchException {
         if ("true".equalsIgnoreCase(name)) {
             return TRUE;
         } else if ("false".equalsIgnoreCase(name)) {
@@ -81,7 +83,7 @@ public final class NestBool extends NestObjectAdapter<Boolean> implements Serial
         }
     }
     
-    public static NestBool of(boolean val) {
+    public static @Nullable NestBool of(boolean val) {
         return val ? NestBool.TRUE : NestBool.FALSE;
     }
     
