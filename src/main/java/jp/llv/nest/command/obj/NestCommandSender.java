@@ -34,19 +34,23 @@ public abstract class NestCommandSender<E> extends NestValueAdapter<E> {
     public NestCommandSender(E sender) {
         super(sender);
     }
-    
+
     public abstract void sendMessage(String name);
-    
+
     public abstract boolean hasPermission(String permission);
-    
+
     public PermBreakThroughCommandSenderWrap<E> getPermBreakthrough() {
         return new PermBreakThroughCommandSenderWrap<>(this);
     }
-    
+
+    public NestCommandSender<E> removeBreakthrough() {
+        return this;
+    }
+
     public static class PermBreakThroughCommandSenderWrap<E> extends NestCommandSender<E> {
 
         private final NestCommandSender<E> wrap;
-        
+
         public PermBreakThroughCommandSenderWrap(NestCommandSender<E> sender) {
             super(sender.value);
             this.wrap = sender;
@@ -55,6 +59,11 @@ public abstract class NestCommandSender<E> extends NestValueAdapter<E> {
         @Override
         public PermBreakThroughCommandSenderWrap<E> getPermBreakthrough() {
             return this;
+        }
+
+        @Override
+        public NestCommandSender<E> removeBreakthrough() {
+            return wrap;
         }
 
         @Override
@@ -91,7 +100,7 @@ public abstract class NestCommandSender<E> extends NestValueAdapter<E> {
         public <T> T to(Class<T> toClass) throws TypeMismatchException {
             return wrap.to(toClass);
         }
-        
+
     }
-    
+
 }
