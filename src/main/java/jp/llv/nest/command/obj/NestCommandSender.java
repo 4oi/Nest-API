@@ -23,6 +23,7 @@
  */
 package jp.llv.nest.command.obj;
 
+import java.util.Objects;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 
 /**
@@ -39,8 +40,8 @@ public abstract class NestCommandSender<E> extends NestValueAdapter<E> {
 
     public abstract boolean hasPermission(String permission);
 
-    public PermBreakThroughCommandSenderWrap<E> getPermBreakthrough() {
-        return new PermBreakThroughCommandSenderWrap<>(this);
+    public PermBreakThroughCommandSenderWrap<E> getPermBreakthrough(NestCommandSender<?> holder) {
+        return new PermBreakThroughCommandSenderWrap<>(this, holder);
     }
 
     public NestCommandSender<E> removeBreakthrough() {
@@ -50,15 +51,18 @@ public abstract class NestCommandSender<E> extends NestValueAdapter<E> {
     public static class PermBreakThroughCommandSenderWrap<E> extends NestCommandSender<E> {
 
         private final NestCommandSender<E> wrap;
+        private final NestCommandSender<?> holder;
 
-        public PermBreakThroughCommandSenderWrap(NestCommandSender<E> sender) {
+        public PermBreakThroughCommandSenderWrap(NestCommandSender<E> sender, NestCommandSender<?> holder) {
             super(sender.value);
             this.wrap = sender;
+            Objects.requireNonNull(holder);
+            this.holder = holder;
         }
 
         @Override
-        public PermBreakThroughCommandSenderWrap<E> getPermBreakthrough() {
-            return this;
+        public PermBreakThroughCommandSenderWrap<E> getPermBreakthrough(NestCommandSender<?> holder) {
+            return new PermBreakThroughCommandSenderWrap<>(this.wrap, holder);
         }
 
         @Override
@@ -73,7 +77,7 @@ public abstract class NestCommandSender<E> extends NestValueAdapter<E> {
 
         @Override
         public boolean hasPermission(String permission) {
-            return true;
+            return holder.hasPermission(permission);
         }
 
         @Override
