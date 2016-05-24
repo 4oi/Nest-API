@@ -23,6 +23,8 @@
  */
 package jp.llv.nest.command.obj;
 
+import jp.llv.nest.command.exceptions.TypeMismatchException;
+
 /**
  *
  * @author toyblocks
@@ -36,5 +38,51 @@ public abstract class NestCommandSender<E> extends NestValueAdapter<E> {
     public abstract void sendMessage(String name);
     
     public abstract boolean hasPermission(String permission);
+    
+    public static class PermBreakThroughCommandSenderWrap<E> extends NestCommandSender<E> {
+
+        private final NestCommandSender<E> wrap;
+        
+        public PermBreakThroughCommandSenderWrap(NestCommandSender<E> sender) {
+            super(sender.value);
+            this.wrap = sender;
+        }
+
+        @Override
+        public void sendMessage(String name) {
+            wrap.sendMessage(name);
+        }
+
+        @Override
+        public boolean hasPermission(String permission) {
+            return true;
+        }
+
+        @Override
+        public E unwrap() {
+            return wrap.unwrap();
+        }
+
+        @Override
+        public String toString() {
+            return wrap.toString();
+        }
+
+        @Override
+        public int hashCode() {
+            return wrap.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return wrap.equals(obj);
+        }
+
+        @Override
+        public <T> T to(Class<T> toClass) throws TypeMismatchException {
+            return wrap.to(toClass);
+        }
+        
+    }
     
 }
