@@ -39,6 +39,10 @@ public abstract class NestCommandSender<E> extends NestValueAdapter<E> {
     
     public abstract boolean hasPermission(String permission);
     
+    public PermBreakThroughCommandSenderWrap<E> getPermBreakthrough() {
+        return new PermBreakThroughCommandSenderWrap<>(this);
+    }
+    
     public static class PermBreakThroughCommandSenderWrap<E> extends NestCommandSender<E> {
 
         private final NestCommandSender<E> wrap;
@@ -46,6 +50,11 @@ public abstract class NestCommandSender<E> extends NestValueAdapter<E> {
         public PermBreakThroughCommandSenderWrap(NestCommandSender<E> sender) {
             super(sender.value);
             this.wrap = sender;
+        }
+
+        @Override
+        public PermBreakThroughCommandSenderWrap<E> getPermBreakthrough() {
+            return this;
         }
 
         @Override
