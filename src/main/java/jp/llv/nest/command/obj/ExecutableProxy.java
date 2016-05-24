@@ -23,6 +23,7 @@
  */
 package jp.llv.nest.command.obj;
 
+import java.util.Objects;
 import jp.llv.nest.command.CommandExecutor;
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
@@ -39,6 +40,9 @@ public class ExecutableProxy<T> extends NestObjectAdapter<T> implements NestExec
     private final NestCommandSender<?> sender;
 
     public ExecutableProxy(CommandExecutor executor, NestCommandSender<?> sender, NestExecutable<T> executable) {
+        Objects.requireNonNull(executor);
+        Objects.requireNonNull(executable);
+        Objects.requireNonNull(sender);
         this.executable = executable;
         this.executor = executor;
         this.sender = sender;
