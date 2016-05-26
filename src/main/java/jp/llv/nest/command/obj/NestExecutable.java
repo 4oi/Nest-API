@@ -24,9 +24,8 @@
 package jp.llv.nest.command.obj;
 
 import java.util.Objects;
-import jp.llv.nest.command.CommandExecutor;
+import jp.llv.nest.command.Context;
 import jp.llv.nest.command.exceptions.CommandException;
-import jp.llv.nest.command.obj.bind.Binding;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,9 +33,9 @@ import org.jetbrains.annotations.Nullable;
  *
  * @author toyblocks
  */
-public interface NestExecutable<E> extends NestObject<E> {
+public interface NestExecutable<S extends NestCommandSender<?>, E> extends NestObject<E> {
 
-    @Nullable NestObject<?> execute(@NotNull CommandExecutor executor, @NotNull NestCommandSender sender, @NotNull Binding binding, @NotNull NestObject<?>... args) throws CommandException;
+    @Nullable NestObject<?> execute(@NotNull Context<S> context, @NotNull NestObject<?>... args) throws CommandException;
 
     @NotNull String[] getDescription();
 
@@ -44,7 +43,7 @@ public interface NestExecutable<E> extends NestObject<E> {
         return null;
     }
 
-    default @NotNull Class<? extends NestCommandSender> getAllowedSender() {
+    default @NotNull Class<? super S> getAllowedSender() {
         return NestCommandSender.class;
     }
 

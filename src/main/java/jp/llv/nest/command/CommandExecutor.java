@@ -27,6 +27,7 @@ import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.obj.NestCommandSender;
 import jp.llv.nest.command.obj.NestList;
 import jp.llv.nest.command.obj.NestObject;
+import jp.llv.nest.command.obj.NestPermitter;
 import jp.llv.nest.command.obj.bind.Binding;
 
 /**
@@ -36,10 +37,10 @@ import jp.llv.nest.command.obj.bind.Binding;
 @FunctionalInterface
 public interface CommandExecutor {
     
-    CommandExecution execute(NestCommandSender sender, Binding binding, NestObject<?> ... args) throws CommandException;
+    CommandExecution execute(NestPermitter<?> authority, NestCommandSender<?> sender, Binding<?> binding, NestObject<?> ... args) throws CommandException;
     
-    default CommandExecution execute(NestCommandSender sender, Binding binding, NestList args) throws CommandException {
-        return this.execute(sender, binding, args.toArray());
+    default CommandExecution execute(NestPermitter<?> authority, NestCommandSender<?> sender, Binding<?> binding, NestList args) throws CommandException {
+        return this.execute(authority, sender, binding, args.toArray());
     }
 
 }

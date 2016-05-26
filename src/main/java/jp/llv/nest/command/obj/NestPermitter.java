@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2016 toyblocks.
@@ -27,12 +27,22 @@ package jp.llv.nest.command.obj;
  *
  * @author toyblocks
  */
-public abstract class NestCommandSender<E> extends NestValueAdapter<E> implements NestPermitter<E> {
+public interface NestPermitter<E> extends NestObject<E> {
 
-    public NestCommandSender(E sender) {
-        super(sender);
+    public static NestSuperUser SUPERUSER = new NestSuperUser();
+    
+    boolean hasPermission(String permission);
+    
+    public static final class NestSuperUser extends NestObjectAdapter<Void> implements NestPermitter<Void> {
+
+        private NestSuperUser() {
+        }
+
+        @Override
+        public boolean hasPermission(String permission) {
+            return true;
+        }
+        
     }
-
-    public abstract void sendMessage(String name);
-
+    
 }

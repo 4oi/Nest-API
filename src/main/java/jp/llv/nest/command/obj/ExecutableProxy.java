@@ -25,32 +25,66 @@ package jp.llv.nest.command.obj;
 
 import java.util.Objects;
 import jp.llv.nest.command.CommandExecutor;
+import jp.llv.nest.command.Context;
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import jp.llv.nest.command.obj.bind.Binding;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  *
  * @author toyblocks
  */
-public class ExecutableProxy<T> extends NestObjectAdapter<T> implements NestExecutable<T> {
+public class ExecutableProxy<S extends NestCommandSender<?>, T> extends NestObjectAdapter<T> implements NestExecutable<S, T> {
 
-    private final NestExecutable<T> executable;
+    private final NestExecutable<S, T> executable;
+    private final NestPermitter<?> authority;
+    private final S sender;
     private final CommandExecutor executor;
-    private final NestCommandSender<?> sender;
+    private final Binding<?> binding;
 
-    public ExecutableProxy(CommandExecutor executor, NestCommandSender<?> sender, NestExecutable<T> executable) {
-        Objects.requireNonNull(executor);
+    public ExecutableProxy(@Nullable NestPermitter<?> authority, @Nullable S sender, @Nullable CommandExecutor executor, @Nullable Binding<?> binding, @NotNull NestExecutable<S, T> executable) {
         Objects.requireNonNull(executable);
-        Objects.requireNonNull(sender);
         this.executable = executable;
-        this.executor = executor;
+        this.authority = authority;
         this.sender = sender;
+        this.executor = executor;
+        this.binding = binding;
+    }
+
+    public ExecutableProxy(@Nullable NestPermitter<?> authority, @NotNull NestExecutable<S, T> executable) {
+        this(authority, null, null, null, executable);
+    }
+
+    public ExecutableProxy(@Nullable S sender, @NotNull NestExecutable<S, T> executable) {
+        this(null, sender, null, null, executable);
+    }
+
+    public ExecutableProxy(@Nullable CommandExecutor executor, @NotNull NestExecutable<S, T> executable) {
+        this(null, null, executor, null, executable);
+    }
+
+    public ExecutableProxy(@Nullable Binding<?> binding, @NotNull NestExecutable<S, T> executable) {
+        this(null, null, null, binding, executable);
     }
 
     @Override
-    public NestObject<?> execute(CommandExecutor executor, NestCommandSender sender, Binding binding, NestObject<?>... args) throws CommandException {
-        return this.executable.execute(this.executor, this.sender, binding, args);
+    public @Nullable NestObject<?> execute(@NotNull Context<S> context, NestObject<?>... args) throws CommandException {
+        Context<S> ctx = context;
+        if (this.authority != null) {
+            ctx = ctx.setAuthority(authority);
+        }
+        if (this.sender != null) {
+            ctx = ctx.setSender(sender);
+        }
+        if (this.executor != null) {
+            ctx = ctx.setExecutor(executor);
+        }
+        if (this.binding != null) {
+            ctx = ctx.setBinding(binding);
+        }
+        return this.executable.execute(ctx, args);
     }
 
     @Override
@@ -69,7 +103,7 @@ public class ExecutableProxy<T> extends NestObjectAdapter<T> implements NestExec
     }
 
     @Override
-    public Class<? extends NestCommandSender> getAllowedSender() {
+    public Class<? super S> getAllowedSender() {
         return executable.getAllowedSender();
     }
 
@@ -87,5 +121,5 @@ public class ExecutableProxy<T> extends NestObjectAdapter<T> implements NestExec
     public T unwrap() throws UnsupportedOperationException {
         return executable.unwrap();
     }
-    
+
 }

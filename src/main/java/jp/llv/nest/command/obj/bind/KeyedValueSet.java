@@ -25,7 +25,7 @@ package jp.llv.nest.command.obj.bind;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-import jp.llv.nest.command.CommandExecutor;
+import jp.llv.nest.command.Context;
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.InsufficientArgumentsException;
 import jp.llv.nest.command.exceptions.UndefinedVariableException;
@@ -38,7 +38,7 @@ import jp.llv.nest.command.obj.NestString;
  *
  * @author toyblocks
  */
-public interface KeyedValueSet<E> extends NestExecutable<E> {
+public interface KeyedValueSet<E> extends NestExecutable<NestCommandSender<?>, E> {
     
     NestObject<?> get(NestString key) throws UndefinedVariableException;
     
@@ -55,7 +55,7 @@ public interface KeyedValueSet<E> extends NestExecutable<E> {
     }
 
     @Override
-    default Class<? extends NestCommandSender> getAllowedSender() {
+    default Class<NestCommandSender> getAllowedSender() {
         return NestCommandSender.class;
     }
 
@@ -70,7 +70,7 @@ public interface KeyedValueSet<E> extends NestExecutable<E> {
     }
 
     @Override
-    default NestObject<?> execute(CommandExecutor executor, NestCommandSender sender, Binding binding, NestObject<?>... args) throws CommandException {
+    default NestObject<?> execute(Context<NestCommandSender<?>> context, NestObject<?>... args) throws CommandException {
         if (args.length < 2) {
             throw new InsufficientArgumentsException();
         }

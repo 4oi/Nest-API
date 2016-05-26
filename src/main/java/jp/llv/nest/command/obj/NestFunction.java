@@ -23,30 +23,29 @@
  */
 package jp.llv.nest.command.obj;
 
-import jp.llv.nest.command.CommandExecutor;
+import jp.llv.nest.command.Context;
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.InternalException;
-import jp.llv.nest.command.obj.bind.Binding;
 import jp.llv.nest.command.token.Token;
 
 /**
  *
  * @author toyblocks
  */
-public class NestFunction extends NestObjectAdapter<Void> implements NestExecutable<Void> {
+public class NestFunction<S extends NestCommandSender<?>> extends NestObjectAdapter<Void> implements NestExecutable<S, Void> {
 
-    private final Binding binding;
+    private final Context context;
     private final Token command;
 
-    public NestFunction(Binding binding, Token command) {
-        this.binding = binding;
+    public NestFunction(Context context, Token command) {
+        this.context = context;
         this.command = command;
     }
     
     @Override
-    public NestObject<?> execute(CommandExecutor executor, NestCommandSender sender, Binding binding, NestObject<?>... args) throws CommandException {
+    public NestObject<?> execute(Context<S> context, NestObject<?>... args) throws CommandException {
         try {
-            return this.command.execute(executor, sender, this.binding).getResultNow();
+            return this.command.execute(context).getResultNow();
         } catch (CommandException ex) {
             throw ex;
         } catch (Exception ex) {

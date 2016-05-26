@@ -25,11 +25,9 @@ package jp.llv.nest.command.token;
 
 import java.util.concurrent.CompletableFuture;
 import jp.llv.nest.command.CommandExecution;
-import jp.llv.nest.command.CommandExecutor;
-import jp.llv.nest.command.obj.NestCommandSender;
+import jp.llv.nest.command.Context;
 import jp.llv.nest.command.obj.NestList;
 import jp.llv.nest.command.obj.NestObject;
-import jp.llv.nest.command.obj.bind.Binding;
 
 /**
  *
@@ -37,7 +35,7 @@ import jp.llv.nest.command.obj.bind.Binding;
  */
 public interface Token {
 
-    CommandExecution execute(CommandExecutor executor, NestCommandSender sender, Binding binding);
+    CommandExecution execute(Context context);
 
     public static CompletableFuture<NestList> allOf(CompletableFuture<? extends NestObject<?>>... elements) {
         return CompletableFuture.allOf(elements).thenApply(v -> {
@@ -49,10 +47,10 @@ public interface Token {
         });
     }
 
-    public static CompletableFuture<NestList> allOf(CommandExecutor executor, NestCommandSender sender, Binding binding, Token... elements) {
+    public static CompletableFuture<NestList> allOf(Context context, Token... elements) {
         CompletableFuture[] result = new CompletableFuture[elements.length];
         for (int i = 0; i < elements.length; i++) {
-            result[i] = elements[i].execute(executor, sender, binding).getResult();
+            result[i] = elements[i].execute(context).getResult();
         }
         return allOf(result);
     }

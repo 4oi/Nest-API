@@ -38,20 +38,20 @@ import org.jetbrains.annotations.NotNull;
 public final class CommandExecution {
 
     private final CompletableFuture<? extends NestObject<?>> result;
-    private final Binding binding;
+    private final Context context;
 
-    public CommandExecution(CompletableFuture<? extends NestObject<?>> result, @NotNull Binding binding) {
+    public CommandExecution(CompletableFuture<? extends NestObject<?>> result, @NotNull Context context) {
         this.result = result == null? CompletableFuture.completedFuture(null) : result;
-        Objects.requireNonNull(binding);
-        this.binding = binding;
+        Objects.requireNonNull(context);
+        this.context = context;
     }
 
     public @NotNull CompletableFuture<? extends NestObject<?>> getResult() {
         return result;
     }
 
-    public @NotNull Binding getBinding() {
-        return binding;
+    public @NotNull Context getContext() {
+        return context;
     }
 
     public NestObject<?> getResultNow() throws CommandException {

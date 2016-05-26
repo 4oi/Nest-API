@@ -31,6 +31,7 @@ import jp.llv.nest.command.exceptions.UnmodifiableVariableException;
 import jp.llv.nest.command.obj.NestCommandSender;
 import jp.llv.nest.command.obj.NestList;
 import jp.llv.nest.command.obj.NestObject;
+import jp.llv.nest.command.obj.NestPermitter;
 import jp.llv.nest.command.obj.bind.Binding;
 import jp.llv.nest.command.token.Token;
 import org.jetbrains.annotations.NotNull;
@@ -52,23 +53,23 @@ public interface NestAPI {
     @NotNull
     Token parse(@NotNull String command) throws CommandException;
 
-    CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull Token command, @NotNull Binding binding) throws CommandException;
+    CompletableFuture<? extends NestObject<?>> execute(@NotNull NestPermitter<?> authority, @NotNull NestCommandSender<?> sender, @NotNull Token command, @NotNull Binding<?> binding) throws CommandException;
 
-    CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull NestList command, @NotNull Binding binding) throws CommandException;
+    CompletableFuture<? extends NestObject<?>> execute(@NotNull NestPermitter<?> authority, @NotNull NestCommandSender<?> sender, @NotNull NestList command, @NotNull Binding<?> binding) throws CommandException;
 
     @NotNull
     Binding getGlobalBinding();
 
-    default CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull Token command) throws CommandException {
-        return this.execute(sender, command, this.getGlobalBinding());
+    default CompletableFuture<? extends NestObject<?>> execute(@NotNull NestPermitter<?> authority, @NotNull NestCommandSender sender, @NotNull Token command) throws CommandException {
+        return this.execute(authority, sender, command, this.getGlobalBinding());
     }
 
-    default CompletableFuture<? extends NestObject<?>> execute(@NotNull NestCommandSender sender, @NotNull String command) throws CommandException {
-        return this.execute(sender, this.parse(command));
+    default CompletableFuture<? extends NestObject<?>> execute(@NotNull NestPermitter<?> authority, @NotNull NestCommandSender sender, @NotNull String command) throws CommandException {
+        return this.execute(authority, sender, this.parse(command));
     }
 
-    default NestObject<?> executeNow(@NotNull NestCommandSender sender, @NotNull String command) throws CommandException {
-        return getResultNow(this.execute(sender, this.parse(command)));
+    default NestObject<?> executeNow(@NotNull NestPermitter<?> authority, @NotNull NestCommandSender sender, @NotNull String command) throws CommandException {
+        return getResultNow(this.execute(authority, sender, this.parse(command)));
     }
 
     @NotNull

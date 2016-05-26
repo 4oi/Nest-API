@@ -49,28 +49,14 @@ public interface Binding<E> extends KeyedValueSet<E> {
     
     void set(String key, @Nullable NestObject<?> value) throws UnmodifiableVariableException;
     
-    default void setUniqueValue(String key, @Nullable NestObject<?> value) throws UnmodifiableVariableException {
-        this.set(key+"@"+System.identityHashCode(this), value);
-    }
+    void del(String key) throws UnmodifiableVariableException;
     
-    default void setUniqueValue(NestString key, @Nullable NestObject<?> value) throws UnmodifiableVariableException {
-        this.setUniqueValue(key.unwrap(), value);
-    }
-    
-    default @Nullable NestObject<?> getUniqueValue(String key) throws UndefinedVariableException {
-        return this.get(key+"@"+System.identityHashCode(this));
-    }
-    
-    default @Nullable NestObject<?> getUniqueValue(NestString key) throws UndefinedVariableException {
-        return this.getUniqueValue(key.unwrap());
-    }
+    void forceDefineHere(String key, @Nullable NestObject<?> value) throws UnmodifiableVariableException;
     
     @NotNull Binding newChild();
     
     default @Nullable Binding getParent() {
         return null;
     }
-    
-    void del(String key) throws UnmodifiableVariableException;
     
 }

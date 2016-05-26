@@ -26,6 +26,7 @@ package jp.llv.nest.command.obj;
 import java.util.HashMap;
 import java.util.Map;
 import jp.llv.nest.command.CommandExecutor;
+import jp.llv.nest.command.Context;
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.InsufficientArgumentsException;
 import jp.llv.nest.command.exceptions.UndefinedVariableException;
@@ -35,14 +36,14 @@ import jp.llv.nest.command.obj.bind.Binding;
  *
  * @author toyblocks
  */
-public class NestCommandRoot extends NestObjectAdapter<Void> implements NestExecutable<Void> {
+public class NestCommandRoot extends NestObjectAdapter<Void> implements NestExecutable<NestCommandSender<?>, Void> {
 
     private static final ArgDescription ARG_DESC_0 = new ArgDescription(NestString.class, "subcommand", false, null, true);
     private static final ArgDescription ARG_DESC_1 =  new ArgDescription(NestObject.class, "args", true, null, true);
-    private final Map<String, NestExecutable<?>> subCommands = new HashMap<>();
+    private final Map<String, NestExecutable<NestCommandSender<?>, ?>> subCommands = new HashMap<>();
     
     @Override
-    public NestObject<?> execute(CommandExecutor executor, NestCommandSender sender, Binding binding, NestObject<?>... args) throws CommandException {
+    public NestObject<?> execute(Context<NestCommandSender<?>> context, NestObject<?>... args) throws CommandException {
         if (args.length < 2) {
             throw new InsufficientArgumentsException();
         }
@@ -52,7 +53,7 @@ public class NestCommandRoot extends NestObjectAdapter<Void> implements NestExec
         }
         NestObject[] newArgs = new NestObject[args.length-1];
         System.arraycopy(args, 1, newArgs, 0, newArgs.length);
-        return this.subCommands.get(key).execute(executor, sender, binding, newArgs);
+        return this.subCommands.get(key).execute(context, newArgs);
     }
 
     @Override
@@ -65,15 +66,15 @@ public class NestCommandRoot extends NestObjectAdapter<Void> implements NestExec
         return new ArgDescription[]{ARG_DESC_0, ARG_DESC_1};
     }
     
-    public void put(String key, NestExecutable<?> executable) {
+    public void put(String key, NestExecutable<NestCommandSender<?>, ?> executable) {
         this.subCommands.put(key, executable);
     }
     
-    public NestExecutable<?> get(String key) {
+    public NestExecutable<?, ?> get(String key) {
         return this.subCommands.get(key);
     }
     
-    public NestExecutable<?> remove(String key) {
+    public NestExecutable<?, ?> remove(String key) {
         return this.subCommands.remove(key);
     }
     
