@@ -27,7 +27,6 @@ import java.util.Objects;
 import jp.llv.nest.command.CommandExecutor;
 import jp.llv.nest.command.Context;
 import jp.llv.nest.command.exceptions.CommandException;
-import jp.llv.nest.command.exceptions.TypeMismatchException;
 import jp.llv.nest.command.obj.bind.Binding;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -113,8 +112,8 @@ public class ExecutableProxy<S extends NestCommandSender<?>, T> extends NestObje
     }
 
     @Override
-    public <T> T to(Class<T> toClass) throws TypeMismatchException {
-        return executable.to(toClass);
+    public String toString() {
+        return "ExecutableProxy{" + "executable=" + executable + ", authority=" + authority + ", sender=" + sender + ", executor=" + executor + ", binding=" + binding + '}';
     }
 
     @Override
