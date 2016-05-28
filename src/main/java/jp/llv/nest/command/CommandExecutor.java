@@ -37,9 +37,9 @@ import jp.llv.nest.command.obj.bind.Binding;
 @FunctionalInterface
 public interface CommandExecutor {
     
-    CommandExecution execute(NestPermitter<?> authority, NestCommandSender<?> sender, Binding<?> binding, NestObject<?> ... args) throws CommandException;
+     <R extends NestObject<?>> CommandExecution<R> execute(NestPermitter<?> authority, NestCommandSender<?> sender, Binding<?> binding, NestObject<?> ... args) throws CommandException;
     
-    default CommandExecution execute(NestPermitter<?> authority, NestCommandSender<?> sender, Binding<?> binding, NestList args) throws CommandException {
+    default  <R extends NestObject<?>> CommandExecution<R> execute(NestPermitter<?> authority, NestCommandSender<?> sender, Binding<?> binding, NestList args) throws CommandException {
         return this.execute(authority, sender, binding, args.toArray());
     }
 
