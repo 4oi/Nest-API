@@ -27,7 +27,7 @@ package jp.llv.nest.command.exceptions;
  *
  * @author toyblocks
  */
-public class SyntaxException extends CommandException {
+public class SyntaxException extends IllegalCallException {
 
     public SyntaxException(String string) {
         super(string);

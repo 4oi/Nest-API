@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2016 toyblocks.
@@ -23,28 +23,26 @@
  */
 package jp.llv.nest.command.exceptions;
 
-import jp.llv.nest.command.obj.NestObject;
-
 /**
  *
  * @author toyblocks
  */
-public class TypeMismatchException extends IllegalCallException {
+public class IllegalSenderException extends CommandException {
 
-    public TypeMismatchException(String string) {
+    public IllegalSenderException(String string) {
         super(string);
     }
 
-    public TypeMismatchException(String string, Throwable thrwbl) {
+    public IllegalSenderException(String string, Throwable thrwbl) {
         super(string, thrwbl);
     }
-    
-    public TypeMismatchException(NestObject object, Class<?> clazz) {
-        this((object == null ? "null" : object.getClass().getName())+" can't be cast to "+clazz.getName());
+
+    public IllegalSenderException(Throwable thrwbl) {
+        super(thrwbl);
     }
     
-    public TypeMismatchException(NestObject object, Class<?> clazz, Throwable thrwbl) {
-        this((object == null ? "null" : object.getClass().getName())+" can't be cast to "+clazz.getName(), thrwbl);
+    public IllegalSenderException(Class<?> actualSender, Class<?> requiredSender) {
+        this(actualSender.getSimpleName()+" cannot execute this! required; "+requiredSender.getSimpleName());
     }
     
 }

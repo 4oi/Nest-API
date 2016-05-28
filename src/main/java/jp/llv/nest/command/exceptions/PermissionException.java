@@ -27,7 +27,7 @@ package jp.llv.nest.command.exceptions;
  *
  * @author toyblocks
  */
-public class PermissionException extends CommandException {
+public class PermissionException extends IllegalCallException {
 
     public PermissionException() {
         super("Not enough permission");

@@ -27,7 +27,7 @@ package jp.llv.nest.command.exceptions;
  *
  * @author toyblocks
  */
-public class UnknownCommandException extends CommandException {
+public class UnknownCommandException extends IllegalCallException {
 
     public UnknownCommandException(String string) {
         super(string);

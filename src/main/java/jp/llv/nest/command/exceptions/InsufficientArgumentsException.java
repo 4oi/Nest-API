@@ -27,7 +27,7 @@ package jp.llv.nest.command.exceptions;
  *
  * @author toyblocks
  */
-public class InsufficientArgumentsException extends CommandException {
+public class InsufficientArgumentsException extends IllegalCallException {
 
     public InsufficientArgumentsException() {
         super("Insufficient arguments");

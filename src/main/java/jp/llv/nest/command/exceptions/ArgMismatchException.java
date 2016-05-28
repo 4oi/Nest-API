@@ -27,7 +27,7 @@ package jp.llv.nest.command.exceptions;
  *
  * @author toyblocks
  */
-public class ArgMismatchException extends CommandException {
+public class ArgMismatchException extends IllegalCallException {
 
     public ArgMismatchException(String string) {
         super(string);
