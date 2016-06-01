@@ -55,4 +55,8 @@ public interface Token {
         return allOf(result);
     }
 
+    default String toString(boolean topLevel) {
+        return this.toString();
+    }
+    
 }
