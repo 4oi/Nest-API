@@ -39,6 +39,8 @@ public interface ModuleManager {
     
     void load(@NotNull Collection<Class<?>> clazz) throws InvalidModuleException, DependencyException;
 
+    public <T> T load(Class<T> clazz) throws InvalidModuleException, DependencyException;
+    
     @NotNull Optional<?> getModule(@NotNull String name);
 
     boolean isModule(@NotNull Class<?> clazz);
