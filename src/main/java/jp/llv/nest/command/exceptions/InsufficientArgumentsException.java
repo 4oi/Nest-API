@@ -30,7 +30,19 @@ package jp.llv.nest.command.exceptions;
 public class InsufficientArgumentsException extends IllegalCallException {
 
     public InsufficientArgumentsException() {
-        super("Insufficient arguments");
+        this("Insufficient arguments");
+    }
+
+    public InsufficientArgumentsException(String string) {
+        super(string);
+    }
+
+    public InsufficientArgumentsException(String string, Throwable thrwbl) {
+        super(string, thrwbl);
+    }
+
+    public InsufficientArgumentsException(Throwable thrwbl) {
+        super(thrwbl);
     }
     
 }
