@@ -25,12 +25,13 @@ package jp.llv.nest.command.obj;
 
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 /**
  *
  * @author toyblocks
  */
-public final class NestInt extends NestObjectAdapter<Long> implements Comparable<NestInt>{
+public final class NestInt extends NestObjectAdapter<Long> implements Comparable<NestInt>, NestJson.Jsonable {
 
     private final long value;
 
@@ -44,6 +45,10 @@ public final class NestInt extends NestObjectAdapter<Long> implements Comparable
         } catch(NumberFormatException ex) {
             throw new TypeMismatchException("Invalid number format", ex);
         }
+    }
+    
+    private NestInt(JSONObject json) {
+        this(json.getLong("num"));
     }
 
     @Override
@@ -84,6 +89,13 @@ public final class NestInt extends NestObjectAdapter<Long> implements Comparable
     @Override
     public int compareTo(NestInt o) {
         return Long.compare(this.value, o.value);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("num", this.value);
+        return json;
     }
     
 }

@@ -28,12 +28,13 @@ import java.util.Objects;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONObject;
 
 /**
  *
  * @author toyblocks
  */
-public final class NestBool extends NestObjectAdapter<Boolean> implements Serializable {
+public final class NestBool extends NestObjectAdapter<Boolean> implements Serializable, NestJson.Jsonable {
     
     public static final @NotNull NestBool TRUE = new NestBool();
     public static final @Nullable NestBool FALSE = null;
@@ -85,6 +86,13 @@ public final class NestBool extends NestObjectAdapter<Boolean> implements Serial
     
     public static @Nullable NestBool of(boolean val) {
         return val ? NestBool.TRUE : NestBool.FALSE;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("bool", true);
+        return json;
     }
     
 }
