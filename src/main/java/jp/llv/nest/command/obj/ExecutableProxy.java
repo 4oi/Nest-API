@@ -69,8 +69,8 @@ public class ExecutableProxy<S extends NestCommandSender<?>, T> extends NestObje
     }
 
     @Override
-    public @Nullable NestObject<?> execute(@NotNull Context<S> context, NestObject<?>... args) throws CommandException {
-        Context<S> ctx = context;
+    public @Nullable NestObject<?> execute(@NotNull Context<? extends S> context, NestObject<?>... args) throws CommandException {
+        Context<? extends S> ctx = context;
         if (this.authority != null) {
             ctx = ctx.setAuthority(authority);
         }
@@ -102,7 +102,7 @@ public class ExecutableProxy<S extends NestCommandSender<?>, T> extends NestObje
     }
 
     @Override
-    public Class<? super S> getAllowedSender() {
+    public Class<S> getAllowedSender() {
         return executable.getAllowedSender();
     }
 

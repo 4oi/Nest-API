@@ -38,7 +38,7 @@ import jp.llv.nest.command.obj.NestString;
  *
  * @author toyblocks
  */
-public interface KeyedValueSet<E> extends NestExecutable<NestCommandSender<?>, E> {
+public interface KeyedValueSet<E> extends NestExecutable<NestCommandSender, E> {
     
     NestObject<?> get(NestString key) throws UndefinedVariableException;
     
@@ -70,7 +70,7 @@ public interface KeyedValueSet<E> extends NestExecutable<NestCommandSender<?>, E
     }
 
     @Override
-    default NestObject<?> execute(Context<NestCommandSender<?>> context, NestObject<?>... args) throws CommandException {
+    default NestObject<?> execute(Context<? extends NestCommandSender> context, NestObject<?>... args) throws CommandException {
         if (args.length < 2) {
             throw new InsufficientArgumentsException();
         }

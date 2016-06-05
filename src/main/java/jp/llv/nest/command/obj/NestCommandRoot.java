@@ -43,7 +43,7 @@ public class NestCommandRoot extends NestObjectAdapter<Void> implements NestExec
     private final Map<String, NestExecutable<NestCommandSender<?>, ?>> subCommands = new HashMap<>();
     
     @Override
-    public NestObject<?> execute(Context<NestCommandSender<?>> context, NestObject<?>... args) throws CommandException {
+    public NestObject<?> execute(Context<? extends NestCommandSender<?>> context, NestObject<?>... args) throws CommandException {
         if (args.length < 2) {
             throw new InsufficientArgumentsException();
         }

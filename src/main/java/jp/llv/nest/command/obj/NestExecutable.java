@@ -33,9 +33,9 @@ import org.jetbrains.annotations.Nullable;
  *
  * @author toyblocks
  */
-public interface NestExecutable<S extends NestCommandSender<?>, E> extends NestObject<E> {
+public interface NestExecutable<S extends NestCommandSender, E> extends NestObject<E> {
 
-    @Nullable NestObject<?> execute(@NotNull Context<S> context, @NotNull NestObject<?>... args) throws CommandException;
+    @Nullable NestObject<?> execute(@NotNull Context<? extends S> context, @NotNull NestObject<?>... args) throws CommandException;
 
     @NotNull String[] getDescription();
 
@@ -43,8 +43,8 @@ public interface NestExecutable<S extends NestCommandSender<?>, E> extends NestO
         return null;
     }
 
-    default @NotNull Class<? super S> getAllowedSender() {
-        return NestCommandSender.class;
+    default @NotNull Class<S> getAllowedSender() {
+        return null;
     }
 
     default @NotNull Class<? extends NestObject> getReturnType() {

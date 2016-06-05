@@ -43,7 +43,7 @@ public class NestFunction<S extends NestCommandSender<?>> extends NestObjectAdap
     }
     
     @Override
-    public NestObject<?> execute(Context<S> context, NestObject<?>... args) throws CommandException {
+    public NestObject<?> execute(Context<? extends S> context, NestObject<?>... args) throws CommandException {
         try {
             return this.command.execute(context.setBinding(this.context.getBinding())).getResultNow();
         } catch (CommandException ex) {
