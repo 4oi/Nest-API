@@ -23,10 +23,34 @@
  */
 package jp.llv.nest.command.exceptions;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
- *
+ * An exception caused by multiple exceptions. 
  * @author toyblocks
  */
-public class MultipleException {
+public class MultipleException extends CommandException {
+ 
+    private final Throwable[] causes;
+
+    /**
+     * Constructs new exception caused by 
+     * @param causes causes of this exception
+     * @deprecated You should submit a message because auto generated one with multiple caueses may be too long .
+     */
+    @Deprecated
+    public MultipleException(Throwable... causes) {
+        this(Arrays.stream(causes).map(Throwable::getMessage).collect(Collectors.joining(" OR ")), causes);
+    }
+
+    public MultipleException(String string, Throwable ... causes) {
+        super(string);
+        this.causes = causes;
+    }
+
+    public Throwable[] getCauses() {
+        return this.causes.clone();
+    }
     
 }
