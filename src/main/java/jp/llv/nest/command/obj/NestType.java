@@ -23,6 +23,8 @@
  */
 package jp.llv.nest.command.obj;
 
+import java.util.HashMap;
+import java.util.Map;
 import jp.llv.nest.command.Context;
 import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.CommandException;
@@ -32,11 +34,12 @@ import jp.llv.nest.command.exceptions.CommandException;
  * @author toyblocks
  */
 @Type("Type")
-public class NestType extends NestValueAdapter<Class<? extends NestObject>> implements NestExecutable<NestCommandSender, Class<? extends NestObject>> {
+public class NestType<T extends NestObject> extends NestValueAdapter<Class<T>> implements NestExecutable<NestCommandSender, Class<T>> {
 
     private static final ArgDescription ARGDESC = new ArgDescription(NestObject.class, "toCast", false, null, false);
-    
-    private NestType(Class<? extends NestObject> value) {
+    private static final Map<Class<? extends NestObject>, NestType> knownTypes = new HashMap<>();
+
+    private NestType(Class<T> value) {
         super(value);
     }
 
@@ -55,14 +58,14 @@ public class NestType extends NestValueAdapter<Class<? extends NestObject>> impl
 
     @Override
     public String[] getDescription() {
-        return new String[] {"return <toCast> as " + this.getName()};
+        return new String[]{"return <toCast> as " + this.getName()};
     }
 
     @Override
     public ArgDescription[] getArgDescriptions() {
         return new ArgDescription[]{ARGDESC};
     }
-    
+
     public String getName() {
         if (super.value.isAnnotationPresent(Type.class)) {
             return super.value.getAnnotation(Type.class).value();
@@ -70,5 +73,15 @@ public class NestType extends NestValueAdapter<Class<? extends NestObject>> impl
             return super.value.getName();
         }
     }
-    
+
+    public static <T extends NestObject> NestType<T> of(Class<T> clazz) {
+        if (knownTypes.containsKey(clazz)) {
+            return knownTypes.get(clazz);
+        } else {
+            NestType<T> instance = new NestType<>(clazz);
+            knownTypes.put(clazz, instance);
+            return instance;
+        }
+    }
+
 }
