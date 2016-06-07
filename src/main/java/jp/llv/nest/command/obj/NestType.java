@@ -38,6 +38,7 @@ public class NestType<T extends NestObject> extends NestValueAdapter<Class<T>> i
 
     private static final ArgDescription ARGDESC = new ArgDescription(NestObject.class, "toCast", false, null, false);
     private static final Map<Class<? extends NestObject>, NestType> knownTypes = new HashMap<>();
+    private static final Map<String, NestType> nameMap = new HashMap<>();
 
     private NestType(Class<T> value) {
         super(value);
@@ -80,7 +81,17 @@ public class NestType<T extends NestObject> extends NestValueAdapter<Class<T>> i
         } else {
             NestType<T> instance = new NestType<>(clazz);
             knownTypes.put(clazz, instance);
+            nameMap.put(instance.getName(), instance);
+            nameMap.put(instance.unwrap().getName(), instance);
             return instance;
+        }
+    }
+    
+    public static NestType<?> forName(String name) throws ClassNotFoundException {
+        if (nameMap.containsKey(name)) {
+            return nameMap.get(name);
+        } else {
+            throw new ClassNotFoundException(name);
         }
     }
 
