@@ -94,5 +94,9 @@ public class NestType<T extends NestObject> extends NestValueAdapter<Class<T>> i
             throw new ClassNotFoundException(name);
         }
     }
+    
+    public static boolean isDefined(String name) {
+        return nameMap.containsKey(name);
+    }
 
 }
