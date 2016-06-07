@@ -23,6 +23,7 @@
  */
 package jp.llv.nest.command.obj;
 
+import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -31,6 +32,7 @@ import org.json.JSONObject;
  *
  * @author toyblocks
  */
+@Type("Int")
 public final class NestInt extends NestObjectAdapter<Long> implements Comparable<NestInt>, NestJson.Jsonable {
 
     private final long value;

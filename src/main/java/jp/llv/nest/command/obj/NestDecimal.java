@@ -23,6 +23,7 @@
  */
 package jp.llv.nest.command.obj;
 
+import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -31,6 +32,7 @@ import org.json.JSONObject;
  *
  * @author toyblocks
  */
+@Type("Decimal")
 public final class NestDecimal extends NestObjectAdapter<Double> implements Comparable<NestDecimal>, NestJson.Jsonable {
     
     private final double value;

@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2016 toyblocks.
@@ -23,34 +23,51 @@
  */
 package jp.llv.nest.command.obj;
 
+import jp.llv.nest.command.Context;
 import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.CommandException;
-import jp.llv.nest.command.exceptions.TypeMismatchException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  *
  * @author toyblocks
  */
-@Type("Object")
-public interface NestObject<E> {
+@Type("Type")
+public class NestType extends NestValueAdapter<Class<? extends NestObject>> implements NestExecutable<NestCommandSender, Class<? extends NestObject>> {
+
+    private static final ArgDescription ARGDESC = new ArgDescription(NestObject.class, "toCast", false, null, false);
     
-    <T> T to(@NotNull Class<T> toClass) throws TypeMismatchException;
-    
-    default @Nullable E unwrap() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+    private NestType(Class<? extends NestObject> value) {
+        super(value);
+    }
+
+    @Override
+    public NestObject<?> execute(Context<? extends NestCommandSender> context, NestObject<?>... args) throws CommandException {
+        if (args.length == 1) {
+            return args[0].to(super.value);
+        } else {
+            NestObject[] res = new NestObject[args.length];
+            for (int i = 0; i < args.length; i++) {
+                res[i] = args[i].to(super.value);
+            }
+            return new NestList(res);
+        }
+    }
+
+    @Override
+    public String[] getDescription() {
+        return new String[] {"return <toCast> as " + this.getName()};
+    }
+
+    @Override
+    public ArgDescription[] getArgDescriptions() {
+        return new ArgDescription[]{ARGDESC};
     }
     
-    public static <T extends NestObject<?>> T to(@Nullable NestObject<?> from,@NotNull  Class<T> toClass) throws CommandException {
-        if (from == null) {
-            if (toClass == NestString.class) {
-                return (T) new NestString("nil");
-            } else {
-                return null;
-            }
+    public String getName() {
+        if (super.value.isAnnotationPresent(Type.class)) {
+            return super.value.getAnnotation(Type.class).value();
         } else {
-            return from.to(toClass);
+            return super.value.getName();
         }
     }
     

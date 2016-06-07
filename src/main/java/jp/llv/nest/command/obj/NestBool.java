@@ -25,6 +25,7 @@ package jp.llv.nest.command.obj;
 
 import java.io.Serializable;
 import java.util.Objects;
+import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,6 +35,7 @@ import org.json.JSONObject;
  *
  * @author toyblocks
  */
+@Type("Bool")
 public final class NestBool extends NestObjectAdapter<Boolean> implements Serializable, NestJson.Jsonable {
     
     public static final @NotNull NestBool TRUE = new NestBool();

@@ -24,12 +24,14 @@
 package jp.llv.nest.command.obj;
 
 import java.util.Map;
+import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 
 /**
  *
  * @author toyblocks
  */
+@Type("Pair")
 public class PairedValue extends NestValueAdapter<Map.Entry<NestObject<?>, NestObject<?>>> {
 
     public PairedValue(Map.Entry<NestObject<?>, NestObject<?>> value) {

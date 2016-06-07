@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2016 toyblocks.
@@ -21,37 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jp.llv.nest.command.obj;
+package jp.llv.nest.command;
 
-import jp.llv.nest.command.Type;
-import jp.llv.nest.command.exceptions.CommandException;
-import jp.llv.nest.command.exceptions.TypeMismatchException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *
  * @author toyblocks
  */
-@Type("Object")
-public interface NestObject<E> {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Documented
+public @interface Type {
     
-    <T> T to(@NotNull Class<T> toClass) throws TypeMismatchException;
-    
-    default @Nullable E unwrap() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-    
-    public static <T extends NestObject<?>> T to(@Nullable NestObject<?> from,@NotNull  Class<T> toClass) throws CommandException {
-        if (from == null) {
-            if (toClass == NestString.class) {
-                return (T) new NestString("nil");
-            } else {
-                return null;
-            }
-        } else {
-            return from.to(toClass);
-        }
-    }
+    String value();
     
 }

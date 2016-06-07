@@ -32,6 +32,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
+import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.UndefinedVariableException;
 import jp.llv.nest.command.obj.bind.KeyedValueSet;
 
@@ -39,6 +40,7 @@ import jp.llv.nest.command.obj.bind.KeyedValueSet;
  *
  * @author toyblocks
  */
+@Type("Hash")
 public final class NestHash extends NestObjectAdapter<Map<NestObject<?>, NestObject<?>>> implements KeyedValueSet<Map<NestObject<?>, NestObject<?>>> {
 
     private final Map<NestObject<?>, NestObject<?>> values;

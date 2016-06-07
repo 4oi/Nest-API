@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import jp.llv.nest.command.Type;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,6 +39,7 @@ import org.json.JSONObject;
  *
  * @author toyblocks
  */
+@Type("List")
 public final class NestList extends  NestValueAdapter<List<NestObject<?>>> {
     
     public NestList() {

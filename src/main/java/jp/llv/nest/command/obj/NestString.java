@@ -25,6 +25,7 @@ package jp.llv.nest.command.obj;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
  *
  * @author toyblocks
  */
+@Type("String")
 public final class NestString extends NestValueAdapter<String> implements NestJson.Jsonable {
     
     public NestString(@NotNull String value) {
