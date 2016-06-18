@@ -23,6 +23,8 @@
  */
 package jp.llv.nest.command.obj;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import jp.llv.nest.command.Context;
@@ -97,6 +99,14 @@ public class NestType<T extends NestObject> extends NestValueAdapter<Class<T>> i
     
     public static boolean isDefined(String name) {
         return nameMap.containsKey(name);
+    }
+    
+    public static Collection<String> getKnownNames() {
+        return Collections.unmodifiableCollection(nameMap.keySet());
+    }
+    
+    public static Collection<NestType> getKnownTypes() {
+        return Collections.unmodifiableCollection(knownTypes.values());
     }
 
 }
