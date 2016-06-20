@@ -23,10 +23,6 @@
  */
 package jp.llv.nest.command.obj;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import jp.llv.nest.command.Context;
 import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.CommandException;
@@ -39,10 +35,8 @@ import jp.llv.nest.command.exceptions.CommandException;
 public class NestType<T extends NestObject> extends NestValueAdapter<Class<T>> implements NestExecutable<NestCommandSender, Class<T>> {
 
     private static final ArgDescription ARGDESC = new ArgDescription(NestObject.class, "toCast", false, null, false);
-    private static final Map<Class<? extends NestObject>, NestType> knownTypes = new HashMap<>();
-    private static final Map<String, NestType> nameMap = new HashMap<>();
 
-    private NestType(Class<T> value) {
+    public NestType(Class<T> value) {
         super(value);
     }
 
@@ -75,38 +69,6 @@ public class NestType<T extends NestObject> extends NestValueAdapter<Class<T>> i
         } else {
             return super.value.getName();
         }
-    }
-
-    public static <T extends NestObject> NestType<T> of(Class<T> clazz) {
-        if (knownTypes.containsKey(clazz)) {
-            return knownTypes.get(clazz);
-        } else {
-            NestType<T> instance = new NestType<>(clazz);
-            knownTypes.put(clazz, instance);
-            nameMap.put(instance.getName(), instance);
-            nameMap.put(instance.unwrap().getName(), instance);
-            return instance;
-        }
-    }
-    
-    public static NestType<?> forName(String name) throws ClassNotFoundException {
-        if (nameMap.containsKey(name)) {
-            return nameMap.get(name);
-        } else {
-            throw new ClassNotFoundException(name);
-        }
-    }
-    
-    public static boolean isDefined(String name) {
-        return nameMap.containsKey(name);
-    }
-    
-    public static Collection<String> getKnownNames() {
-        return Collections.unmodifiableCollection(nameMap.keySet());
-    }
-    
-    public static Collection<NestType> getKnownTypes() {
-        return Collections.unmodifiableCollection(knownTypes.values());
     }
 
 }

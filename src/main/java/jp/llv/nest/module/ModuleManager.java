@@ -23,62 +23,18 @@
  */
 package jp.llv.nest.module;
 
-import java.io.File;
+import com.google.inject.Injector;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
+import java.nio.file.Path;
 
 /**
  *
  * @author toyblocks
  */
 public interface ModuleManager {
-
-    void load(@NotNull File ... file) throws IOException, InvalidModuleException, DependencyException;
     
-    void load(@NotNull Collection<Class<?>> clazz) throws InvalidModuleException, DependencyException;
-
-    public <T> T load(Class<T> clazz) throws InvalidModuleException, DependencyException;
+    void load(Path path) throws IOException;
     
-    @NotNull Optional<?> getModule(@NotNull String name);
-
-    boolean isModule(@NotNull Class<?> clazz);
-
-    default boolean isModule(@NotNull Object obj) {
-        return this.isModule(obj.getClass());
-    }
-
-    @NotNull String getName(@NotNull Class<?> clazz) throws InvalidModuleException;
-
-    default @NotNull String getName(@NotNull Object obj) throws InvalidModuleException {
-        return this.getName(obj.getClass());
-    }
-
-    int getVersion(@NotNull Class<?> clazz) throws InvalidModuleException;
-
-    default int getVersion(@NotNull Object obj) throws InvalidModuleException {
-        return this.getVersion(obj.getClass());
-    }
-
-    @NotNull String getAuthor(@NotNull Class<?> clazz) throws InvalidModuleException;
-
-    default @NotNull String getAuthor(@NotNull Object obj) throws InvalidModuleException {
-        return this.getAuthor(obj.getClass());
-    }
-
-    <T> @NotNull Optional<T> getDependable(@NotNull Class<T> clazz, int min, int max);
-
-    default <T> @NotNull Optional<T> getDependable(@NotNull Class<T> clazz) {
-        return this.getDependable(clazz, Integer.MIN_VALUE, Integer.MAX_VALUE);
-    }
-
-    ;
-    
-    void setDependable(@NotNull Object obj, int version);
-
-    default void setDependable(@NotNull Object obj) {
-        this.setDependable(obj, 0);
-    }
+    Injector getInjector();
 
 }
