@@ -23,10 +23,13 @@
  */
 package jp.llv.nest.command.obj;
 
+import jp.llv.nest.command.Type;
+
 /**
  *
  * @author toyblocks
  */
+@Type("Permitter")
 public interface NestPermitter<E> extends NestObject<E> {
 
     public static NestSuperUser SUPERUSER = new NestSuperUser();

@@ -23,6 +23,7 @@
  */
 package jp.llv.nest.command.obj;
 
+import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import jp.llv.nest.command.exceptions.UndefinedVariableException;
 import jp.llv.nest.command.obj.bind.Binding;
@@ -31,6 +32,7 @@ import jp.llv.nest.command.obj.bind.Binding;
  *
  * @author toyblocks
  */
+@Type("Reference")
 public class Reference implements NestObject<Void> {
 
     private final Binding<?> binding;

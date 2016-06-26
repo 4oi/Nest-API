@@ -23,10 +23,13 @@
  */
 package jp.llv.nest.command.obj;
 
+import jp.llv.nest.command.Type;
+
 /**
  *
  * @author toyblocks
  */
+@Type("User")
 public abstract class NestCommandSender<E> extends NestValueAdapter<E> implements NestPermitter<E> {
 
     public NestCommandSender(E sender) {
