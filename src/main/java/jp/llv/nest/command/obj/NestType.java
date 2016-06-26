@@ -26,6 +26,7 @@ package jp.llv.nest.command.obj;
 import jp.llv.nest.command.Context;
 import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.CommandException;
+import jp.llv.nest.command.exceptions.InsufficientArgumentsException;
 
 /**
  *
@@ -42,12 +43,14 @@ public class NestType<T extends NestObject> extends NestValueAdapter<Class<T>> i
 
     @Override
     public NestObject<?> execute(Context<? extends NestCommandSender> context, NestObject<?>... args) throws CommandException {
-        if (args.length == 1) {
-            return args[0].to(super.value);
+        if (args.length < 2) {
+            throw new InsufficientArgumentsException();
+        }else if (args.length == 2) {
+            return NestObject.to(args[1],super.value);
         } else {
             NestObject[] res = new NestObject[args.length];
             for (int i = 0; i < args.length; i++) {
-                res[i] = args[i].to(super.value);
+                res[i] = NestObject.to(args[1],super.value);
             }
             return new NestList(res);
         }
