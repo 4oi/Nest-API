@@ -23,6 +23,7 @@
  */
 package jp.llv.nest;
 
+import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.UndefinedVariableException;
@@ -77,6 +78,9 @@ public interface NestAPI {
 
     @NotNull
     Logger getLogger();
+    
+    @NotNull
+    Path getDataFolder();
 
     public static NestObject<?> getResultNow(CompletableFuture<? extends NestObject<?>> future) throws CommandException {
         try {
