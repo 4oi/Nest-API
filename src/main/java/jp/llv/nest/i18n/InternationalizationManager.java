@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2016 toyblocks.
@@ -21,32 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jp.llv.nest.command.obj;
-
-import jp.llv.nest.command.Type;
-import jp.llv.nest.i18n.InjectableMessage;
+package jp.llv.nest.i18n;
 
 /**
  *
  * @author toyblocks
  */
-@Type("User")
-public abstract class NestCommandSender<E> extends NestValueAdapter<E> implements NestPermitter<E> {
-
-    public NestCommandSender(E sender) {
-        super(sender);
-    }
-
-    public abstract void sendMessage(String name);
+public interface InternationalizationManager {
     
-    public void sendMessage(CharSequence seq) {
-        if (seq instanceof String) {
-            this.sendMessage((String) seq);
-        } else if (seq instanceof InjectableMessage) {
-            this.sendMessage(seq.toString());
-        } else {
-            this.sendMessage(new StringBuilder(seq).toString());
-        }
+    InjectableMessage getMessage(InternationalizationKey key);
+    
+    default String getMessage(InternationalizationKey key, Object ... injecting) {
+        return this.getMessage(key).with(injecting);
     }
-
+    
 }
