@@ -23,12 +23,29 @@
  */
 package jp.llv.nest.i18n;
 
+import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
+
 /**
  *
  * @author toyblocks
  */
 public interface MessageProvider {
     
-    String get(String ... key) throws Exception;
+    String get(String ... key) throws MessageProvisionException;
+    
+    static class MessageProvisionException extends Exception {
+
+        public MessageProvisionException(@NotNull String message) {
+            super(message);
+            Objects.requireNonNull(message);
+        }
+
+        public MessageProvisionException(@NotNull String message, Throwable cause) {
+            super(message, cause);
+            Objects.requireNonNull(message);
+        }
+        
+    }
     
 }
