@@ -30,6 +30,10 @@ package jp.llv.nest.i18n;
 public class I18n {
     
     private static InternationalizationManager manager;
+
+    private I18n() {
+        throw new UnsupportedOperationException("This is static utilities class");
+    }
     
     public static InternationalizationKey key(String domain, String ... key) {
         return new InternationalizationKey(domain, key);
@@ -41,6 +45,10 @@ public class I18n {
     
     public static InjectableMessage get(InternationalizationKey key) {
         return manager.getMessage(key);
+    }
+    
+    public static void setProvider(String domain, MessageProvider provider) {
+        manager.setProvider(domain, provider);
     }
     
     /*package*/ static void setManager(InternationalizationManager m) {

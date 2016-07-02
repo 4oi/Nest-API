@@ -27,14 +27,8 @@ package jp.llv.nest.i18n;
  *
  * @author toyblocks
  */
-public interface InternationalizationManager {
+public interface MessageProvider {
     
-    InjectableMessage getMessage(InternationalizationKey key);
-    
-    default String getMessage(InternationalizationKey key, Object ... injecting) {
-        return this.getMessage(key).with(injecting);
-    }
-    
-    void setProvider(String domain, MessageProvider provider);
+    String get(String ... key) throws Exception;
     
 }
