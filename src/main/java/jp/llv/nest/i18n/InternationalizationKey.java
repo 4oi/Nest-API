@@ -31,14 +31,22 @@ import java.util.Objects;
  */
 public final class InternationalizationKey {
     
+    private final String domain;
     private final String[] key;
     
     /*package*/ InternationalizationKey(String domain, String ... keys) {
         Objects.requireNonNull(domain);
         Objects.requireNonNull(keys);
-        key = new String[keys.length+1];
-        key[0] = domain;
-        System.arraycopy(keys, 0, this.key, 1, keys.length);
+        this.domain = domain;
+        this.key = keys;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public String[] getKey() {
+        return key;
     }
     
 }
