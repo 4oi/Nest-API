@@ -29,6 +29,8 @@ package jp.llv.nest.i18n;
  */
 public class I18n {
     
+    private static final InjectableMessage NO_MANAGER_FOUND = new InjectableMessage("[MESSAGE ERROR: MANAGER IS NOT INITIALIZED]");
+    
     private static InternationalizationManager manager;
 
     private I18n() {
@@ -40,10 +42,16 @@ public class I18n {
     }
     
     public static InjectableMessage get(String domain, String ... key) {
+        if (manager == null) {
+            return NO_MANAGER_FOUND;
+        }
         return manager.getMessage(key(domain, key));
     }
     
     public static InjectableMessage get(InternationalizationKey key) {
+        if (manager == null) {
+            return NO_MANAGER_FOUND;
+        }
         return manager.getMessage(key);
     }
     
