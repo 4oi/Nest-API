@@ -33,6 +33,7 @@ import jp.llv.nest.command.obj.NestList;
 import jp.llv.nest.command.obj.NestObject;
 import jp.llv.nest.command.obj.NestPermitter;
 import jp.llv.nest.command.obj.bind.Binding;
+import jp.llv.nest.command.obj.bind.GlobalBinding;
 import jp.llv.nest.command.token.Token;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -59,7 +60,7 @@ public interface NestAPI {
     CompletableFuture<? extends NestObject<?>> execute(@NotNull NestPermitter<?> authority, @NotNull NestCommandSender<?> sender, @NotNull NestList command, @NotNull Binding<?> binding) throws CommandException;
 
     @NotNull
-    Binding getGlobalBinding();
+    GlobalBinding getGlobalBinding();
 
     default CompletableFuture<? extends NestObject<?>> execute(@NotNull NestPermitter<?> authority, @NotNull NestCommandSender sender, @NotNull Token command) throws CommandException {
         return this.execute(authority, sender, command, this.getGlobalBinding());
