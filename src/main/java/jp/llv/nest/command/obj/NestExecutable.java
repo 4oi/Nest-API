@@ -43,7 +43,7 @@ public interface NestExecutable<S extends NestCommandSender, E> extends NestObje
         return null;
     }
 
-    default @NotNull Class<S> getAllowedSender() {
+    default @Nullable Class<S> getAllowedSender() {
         return null;
     }
 
