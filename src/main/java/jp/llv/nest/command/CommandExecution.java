@@ -27,8 +27,10 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import jp.llv.nest.NestAPI;
 import jp.llv.nest.command.exceptions.CommandException;
+import jp.llv.nest.command.obj.NestList;
 import jp.llv.nest.command.obj.NestObject;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  *
@@ -53,8 +55,32 @@ public final class CommandExecution<R extends NestObject<?>> {
         return context;
     }
 
-    public NestObject<?> getResultNow() throws CommandException {
+    public @Nullable NestObject<?> getResultNow() throws CommandException {
         return NestAPI.getResultNow(this.getResult());
+    }
+
+    public CommandExecution execute(NestObject... args) throws CommandException {
+        return this.context.execute(args);
+    }
+
+    public CommandExecution execute(NestList args) throws CommandException {
+        return this.context.execute(args);
+    }
+
+    public CommandExecution executeInside(NestObject... args) throws CommandException {
+        return this.context.newInner().execute(args);
+    }
+
+    public CommandExecution executeInside(NestList args) throws CommandException {
+        return this.context.newInner().execute(args);
+    }
+
+    public CommandExecution executeOutside(NestObject... args) throws CommandException {
+        return this.context.newOuter().execute(args);
+    }
+
+    public CommandExecution executeOutside(NestList args) throws CommandException {
+        return this.context.newOuter().execute(args);
     }
 
 }
