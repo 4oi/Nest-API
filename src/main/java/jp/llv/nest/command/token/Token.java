@@ -49,7 +49,7 @@ public interface Token {
     public static CompletableFuture<NestObject<?>[]> allOf(Context context, Token... elements) {
         CompletableFuture[] result = new CompletableFuture[elements.length];
         for (int i = 0; i < elements.length; i++) {
-            result[i] = elements[i].execute(context).getResult();
+            result[i] = elements[i].execute(context.newInner()).getResult();
         }
         return allOf(result);
     }
