@@ -27,7 +27,7 @@ package jp.llv.nest.command.obj;
  *
  * @author toyblocks
  */
-public interface Location2<E, U extends NestNumber<?>> extends NestObject<E> {
+public interface Location2<U extends Number, E> extends NestObject<E> {
     
     U getX();
     
