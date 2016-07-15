@@ -33,7 +33,7 @@ import org.json.JSONObject;
  * @author toyblocks
  */
 @Type("Int")
-public final class NestInt extends NestObjectAdapter<Long> implements Comparable<NestInt>, NestJson.Jsonable {
+public final class NestInt extends NestNumber<Long> implements Comparable<NestInt>, NestJson.Jsonable {
 
     private final long value;
 

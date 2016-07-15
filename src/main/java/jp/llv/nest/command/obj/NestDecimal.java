@@ -33,7 +33,7 @@ import org.json.JSONObject;
  * @author toyblocks
  */
 @Type("Decimal")
-public final class NestDecimal extends NestObjectAdapter<Double> implements Comparable<NestDecimal>, NestJson.Jsonable {
+public final class NestDecimal extends NestNumber<Double> implements Comparable<NestDecimal>, NestJson.Jsonable {
     
     private final double value;
 
