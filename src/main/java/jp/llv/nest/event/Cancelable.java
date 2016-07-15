@@ -23,11 +23,13 @@
  */
 package jp.llv.nest.event;
 
+import jp.llv.nest.command.obj.NestObjectAdapter;
+
 /**
  *
  * @author toyblocks
  */
-public abstract class Cancelable {
+public abstract class Cancelable<E> extends NestObjectAdapter<E> {
     
     private boolean canceled;
     

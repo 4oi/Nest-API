@@ -24,6 +24,7 @@
 package jp.llv.nest.event;
 
 import java.util.function.Consumer;
+import jp.llv.nest.command.obj.NestObject;
 
 /**
  *
@@ -31,16 +32,16 @@ import java.util.function.Consumer;
  */
 public interface EventManager {
 
-    void fire(Object event);
+    void fire(NestObject<?> event);
 
     default boolean fire(Cancelable event) {
-        this.fire((Object) event);
+        this.fire((NestObject<?>) event);
         return event.isCanceled();
     }
 
-    <E> EventManager on(Class<? extends E> clazz, int priority, Consumer<E> listener);
+    <E extends NestObject<?>> EventManager on(Class<? extends E> clazz, int priority, Consumer<E> listener);
 
-    default <E> EventManager on(Class<? extends E> clazz, Consumer<E> listener) {
+    default <E extends NestObject<?>> EventManager on(Class<? extends E> clazz, Consumer<E> listener) {
         return this.on(clazz, Priority.NORMAL, listener);
     }
 
