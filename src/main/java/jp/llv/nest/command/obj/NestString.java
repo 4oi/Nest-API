@@ -26,6 +26,7 @@ package jp.llv.nest.command.obj;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import jp.llv.nest.command.Type;
+import jp.llv.nest.command.exceptions.AltInstanceProvidedException;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -55,6 +56,12 @@ public final class NestString extends NestValueAdapter<String> implements NestJs
             try {
                 Constructor<?> c = toClass.getConstructor(String.class);
                 return (T) c.newInstance(this.value);
+            } catch(AltInstanceProvidedException ex) {
+                if (toClass.isAssignableFrom(ex.getInstance().getClass())) {
+                    return (T) ex.getInstance();
+                } else {
+                    throw new TypeMismatchException("Alt instance with wrong type", ex);
+                }
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             }
         }

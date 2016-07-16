@@ -25,8 +25,11 @@ package jp.llv.nest.command.obj;
 
 import jp.llv.nest.command.Context;
 import jp.llv.nest.command.Type;
+import jp.llv.nest.command.exceptions.AltInstanceProvidedException;
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.InsufficientArgumentsException;
+import jp.llv.nest.command.exceptions.UndefinedVariableException;
+import jp.llv.nest.command.obj.bind.TypeBinding;
 
 /**
  *
@@ -39,6 +42,11 @@ public class NestType<T extends NestObject> extends NestValueAdapter<Class<T>> i
 
     public NestType(Class<T> value) {
         super(value);
+    }
+    
+    public NestType(String name) throws AltInstanceProvidedException, UndefinedVariableException {
+        super((Class<T>) NestObject.class);
+        throw new AltInstanceProvidedException(TypeBinding.getInstance().get(name));
     }
 
     @Override
@@ -72,6 +80,10 @@ public class NestType<T extends NestObject> extends NestValueAdapter<Class<T>> i
         } else {
             return super.value.getName();
         }
+    }
+    
+    public static Class<?> getClass(NestObject<?> obj) {
+        return obj == null ? null : obj.getClass();
     }
 
 }
