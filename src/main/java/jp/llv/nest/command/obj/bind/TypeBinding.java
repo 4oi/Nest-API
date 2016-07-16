@@ -3,10 +3,6 @@
  */
 package jp.llv.nest.command.obj.bind;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import jp.llv.nest.command.exceptions.UndefinedVariableException;
 import jp.llv.nest.command.exceptions.UnmodifiableVariableException;
 import jp.llv.nest.command.obj.NestBool;
@@ -30,8 +26,6 @@ public abstract class TypeBinding extends NestObjectAdapter<Void> implements Bin
 
     /*package*/ static TypeBinding INSTANCE;
     
-    private final Map<String, NestType<?>> knownTypes = Collections.synchronizedMap(new HashMap<>());
-    
     /*package*/ TypeBinding() {
         this.registerClass(NestBool.class, 
                 NestCommandSender.class, 
@@ -54,18 +48,8 @@ public abstract class TypeBinding extends NestObjectAdapter<Void> implements Bin
     public abstract void del(String key) throws UnmodifiableVariableException;
 
     @Override
-    public boolean isDefined(String key) {
-        return this.knownTypes.containsKey(key);
-    }
-
-    @Override
     @Deprecated
     public abstract void forceDefineHere(String key, NestObject<?> value) throws UnmodifiableVariableException;
-
-    @Override
-    public Collection<String> keySet() {
-        return Collections.unmodifiableCollection(this.knownTypes.keySet());
-    }
 
     public abstract void findTypes(Class<?> source);
     
