@@ -44,6 +44,7 @@ public class EventHandlingException extends CommandException implements Iterable
         return causes.size();
     }
 
+    @Override
     public Iterator<Throwable> iterator() {
         return causes.iterator();
     }
@@ -54,6 +55,10 @@ public class EventHandlingException extends CommandException implements Iterable
 
     public boolean add(Throwable e) {
         return causes.add(e);
+    }
+    
+    public boolean addAll(EventHandlingException ex) {
+        return this.causes.addAll(ex.causes);
     }
 
     public Throwable get(int index) {
