@@ -32,23 +32,23 @@ import jp.llv.nest.command.obj.NestObject;
  */
 public interface EventManager {
 
-    void fireThrowing(NestObject<?> event) throws EventHandlingException;
+    void fireThrowing(NestObject event) throws EventHandlingException;
     
-    void fire(NestObject<?> event);
+    void fire(NestObject event);
 
     default boolean fireThrowing(Cancelable event) throws EventHandlingException {
-        this.fireThrowing((NestObject<?>) event);
+        this.fireThrowing((NestObject) event);
         return event.isCanceled();
     }
 
     default boolean fire(Cancelable event) {
-        this.fire((NestObject<?>) event);
+        this.fire((NestObject) event);
         return event.isCanceled();
     }
 
-    <E extends NestObject<?>> EventManager on(Class<E> clazz, int priority, ThrowingConsumer<? super E> listener);
+    <E extends NestObject> EventManager on(Class<E> clazz, int priority, ThrowingConsumer<? super E> listener);
 
-    default <E extends NestObject<?>> EventManager on(Class<E> clazz, ThrowingConsumer<? super E> listener) {
+    default <E extends NestObject> EventManager on(Class<E> clazz, ThrowingConsumer<? super E> listener) {
         return this.on(clazz, Priority.NORMAL, listener);
     }
 
