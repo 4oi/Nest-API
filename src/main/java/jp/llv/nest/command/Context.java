@@ -93,12 +93,12 @@ public final class Context<S extends NestCommandSender<?>> {
         return this.executor.execute(authority, sender, binding, args);
     }
     
-    public Context newInner() {
-        return new Context(this.authority, this.sender, this.executor, this.binding.newChild());
+    public Context<S> newInner() {
+        return new Context<>(this.authority, this.sender, this.executor, this.binding.newChild());
     }
     
-    public Context newOuter() {
-        return new Context(this.authority, this.sender, this.executor, this.binding.getParent());
+    public Context<S> newOuter() {
+        return new Context<>(this.authority, this.sender, this.executor, this.binding.getParent());
     }
     
 }
