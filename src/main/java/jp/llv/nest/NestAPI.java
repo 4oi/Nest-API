@@ -35,6 +35,7 @@ import jp.llv.nest.command.obj.NestPermitter;
 import jp.llv.nest.command.obj.bind.Binding;
 import jp.llv.nest.command.obj.bind.GlobalBinding;
 import jp.llv.nest.command.token.Token;
+import jp.llv.nest.event.EventManager;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -82,6 +83,9 @@ public interface NestAPI {
     
     @NotNull
     Path getDataFolder();
+    
+    @NotNull
+    EventManager getEventManager();
 
     public static NestObject<?> getResultNow(CompletableFuture<? extends NestObject<?>> future) throws CommandException {
         try {
