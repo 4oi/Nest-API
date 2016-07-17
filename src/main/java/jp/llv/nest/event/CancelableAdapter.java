@@ -23,18 +23,29 @@
  */
 package jp.llv.nest.event;
 
-import jp.llv.nest.command.obj.NestObject;
+import jp.llv.nest.command.obj.NestObjectAdapter;
 
 /**
  *
  * @author toyblocks
  */
-public interface Cancelable<E> extends NestObject<E> {
-
-    void cancel();
-
-    void proceed();
-
-    boolean isCanceled();
-
+public class CancelableAdapter<E> extends NestObjectAdapter<E> implements Cancelable<E>{
+    
+    private boolean canceled;
+    
+    @Override
+    public final void cancel() {
+        this.canceled = true;
+    }
+    
+    @Override
+    public final void proceed() {
+        this.canceled = false;
+    }
+    
+    @Override
+    public final boolean isCanceled() {
+        return this.canceled;
+    }
+    
 }
