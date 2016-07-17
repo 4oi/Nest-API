@@ -23,34 +23,45 @@
  */
 package jp.llv.nest.command.exceptions;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
- * An exception caused by multiple exceptions. 
+ *
  * @author toyblocks
  */
-public class MultipleException extends CommandException {
- 
-    private final Throwable[] causes;
+public class EventHandlingException extends CommandException implements Iterable<Throwable> {
+    
+    private final List<Throwable> causes = new ArrayList<>();
 
-    /**
-     * Constructs new exception caused by 
-     * @param causes causes of this exception
-     * @deprecated You should submit a message because auto generated one with multiple caueses may be too long .
-     */
-    @Deprecated
-    public MultipleException(Throwable... causes) {
-        this(Arrays.stream(causes).map(Throwable::getMessage).collect(Collectors.joining(" OR ")), causes);
+    public EventHandlingException(String string) {
+        super("Failed to handle event");
     }
 
-    public MultipleException(String string, Throwable ... causes) {
-        super(string);
-        this.causes = causes;
+    public int size() {
+        return causes.size();
     }
 
-    public Throwable[] getCauses() {
-        return this.causes.clone();
+    public Iterator<Throwable> iterator() {
+        return causes.iterator();
+    }
+
+    public Throwable[] toArray() {
+        return (Throwable[]) causes.toArray();
+    }
+
+    public boolean add(Throwable e) {
+        return causes.add(e);
+    }
+
+    public Throwable get(int index) {
+        return causes.get(index);
+    }
+
+    public List<Throwable> getCauses() {
+        return Collections.unmodifiableList(causes);
     }
     
 }

@@ -24,6 +24,7 @@
 package jp.llv.nest.event;
 
 import java.util.function.Consumer;
+import jp.llv.nest.command.exceptions.EventHandlingException;
 import jp.llv.nest.command.obj.NestObject;
 
 /**
@@ -32,7 +33,14 @@ import jp.llv.nest.command.obj.NestObject;
  */
 public interface EventManager {
 
+    void fireThrowing(NestObject<?> event) throws EventHandlingException;
+    
     void fire(NestObject<?> event);
+
+    default boolean fireThrowing(Cancelable event) throws EventHandlingException {
+        this.fireThrowing((NestObject<?>) event);
+        return event.isCanceled();
+    }
 
     default boolean fire(Cancelable event) {
         this.fire((NestObject<?>) event);
