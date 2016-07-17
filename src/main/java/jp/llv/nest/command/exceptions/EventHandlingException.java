@@ -36,7 +36,7 @@ public class EventHandlingException extends CommandException implements Iterable
     
     private final List<Throwable> causes = new ArrayList<>();
 
-    public EventHandlingException(String string) {
+    public EventHandlingException() {
         super("Failed to handle event");
     }
 
