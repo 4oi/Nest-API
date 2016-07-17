@@ -47,9 +47,9 @@ public interface EventManager {
         return event.isCanceled();
     }
 
-    <E extends NestObject<?>> EventManager on(Class<? extends E> clazz, int priority, Consumer<E> listener);
+    <E extends NestObject<?>> EventManager on(Class<E> clazz, int priority, Consumer<? super E> listener);
 
-    default <E extends NestObject<?>> EventManager on(Class<? extends E> clazz, Consumer<E> listener) {
+    default <E extends NestObject<?>> EventManager on(Class<E> clazz, Consumer<? super E> listener) {
         return this.on(clazz, Priority.NORMAL, listener);
     }
 
