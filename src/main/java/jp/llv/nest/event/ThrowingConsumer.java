@@ -23,35 +23,15 @@
  */
 package jp.llv.nest.event;
 
-import jp.llv.nest.command.exceptions.EventHandlingException;
-import jp.llv.nest.command.obj.NestObject;
+import jp.llv.nest.command.exceptions.CommandException;
 
 /**
  *
  * @author toyblocks
  */
-public interface EventManager {
-
-    void fireThrowing(NestObject<?> event) throws EventHandlingException;
+@FunctionalInterface
+public interface ThrowingConsumer<T> {
     
-    void fire(NestObject<?> event);
-
-    default boolean fireThrowing(Cancelable event) throws EventHandlingException {
-        this.fireThrowing((NestObject<?>) event);
-        return event.isCanceled();
-    }
-
-    default boolean fire(Cancelable event) {
-        this.fire((NestObject<?>) event);
-        return event.isCanceled();
-    }
-
-    <E extends NestObject<?>> EventManager on(Class<E> clazz, int priority, ThrowingConsumer<? super E> listener);
-
-    default <E extends NestObject<?>> EventManager on(Class<E> clazz, ThrowingConsumer<? super E> listener) {
-        return this.on(clazz, Priority.NORMAL, listener);
-    }
-
-    void unregister(ThrowingConsumer<?> listener);
-
+    void accept(T t) throws CommandException;
+    
 }
