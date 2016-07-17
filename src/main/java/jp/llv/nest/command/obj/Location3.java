@@ -23,16 +23,23 @@
  */
 package jp.llv.nest.command.obj;
 
+import jp.llv.nest.command.Type;
+
 /**
  *
  * @author toyblocks
  */
-public interface Location3<U extends Number, E> extends NestObject<E> {
-    
-    U getX();
+@Type("Location3")
+public interface Location3<U extends Number, E> extends NestObject<E>, Location2<U, E> {
     
     U getY();
     
-    U getZ();
+    @Type("Location3d")
+    static interface Location3d<E> extends Location3<Double, E> {
+    }
+    
+    @Type("Location3i")
+    static interface Location3i<E> extends Location3<Long, E> {
+    }
     
 }

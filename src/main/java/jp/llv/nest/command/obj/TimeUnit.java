@@ -24,11 +24,13 @@
 package jp.llv.nest.command.obj;
 
 import java.time.temporal.TemporalUnit;
+import jp.llv.nest.command.Type;
 
 /**
  *
  * @author toyblocks
  */
+@Type("TimeUnit")
 public class TimeUnit extends NestValueAdapter<TemporalUnit> {
     
     public TimeUnit(TemporalUnit value) {

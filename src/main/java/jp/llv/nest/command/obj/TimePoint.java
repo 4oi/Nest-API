@@ -24,11 +24,13 @@
 package jp.llv.nest.command.obj;
 
 import java.time.temporal.Temporal;
+import jp.llv.nest.command.Type;
 
 /**
  *
  * @author toyblocks
  */
+@Type("Time")
 public class TimePoint extends NestValueAdapter<Temporal> {
     
     public TimePoint(Temporal value) {
