@@ -31,10 +31,13 @@ import jp.llv.nest.command.obj.NestObject;
  */
 public interface Cancelable<E> extends NestObject<E> {
 
+    @EventField("cancel")
     void cancel();
 
+    @EventField("proceed")
     void proceed();
 
+    @EventField("isCanceled")
     boolean isCanceled();
 
 }
