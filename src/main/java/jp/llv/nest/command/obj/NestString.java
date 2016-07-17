@@ -63,8 +63,11 @@ public final class NestString extends NestValueAdapter<String> implements NestJs
                     } else {
                         throw new TypeMismatchException("Alt instance with wrong type", ex.getCause());
                     }
+                } else {
+                    throw new TypeMismatchException(this, toClass, ex.getCause());
                 }
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException ex) {
+                //do nothing
             }
         }
         if (NestList.class.isAssignableFrom(toClass)) {
