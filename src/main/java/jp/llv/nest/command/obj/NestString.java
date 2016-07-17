@@ -37,11 +37,11 @@ import org.json.JSONObject;
  */
 @Type("String")
 public final class NestString extends NestValueAdapter<String> implements NestJson.Jsonable {
-    
+
     public NestString(@NotNull String value) {
         super(value);
     }
-    
+
     private NestString(JSONObject json) {
         super(json.getString("str"));
     }
@@ -56,13 +56,15 @@ public final class NestString extends NestValueAdapter<String> implements NestJs
             try {
                 Constructor<?> c = toClass.getConstructor(String.class);
                 return (T) c.newInstance(this.value);
-            } catch(AltInstanceProvidedException ex) {
-                if (toClass.isAssignableFrom(ex.getInstance().getClass())) {
-                    return (T) ex.getInstance();
-                } else {
-                    throw new TypeMismatchException("Alt instance with wrong type", ex);
+            } catch (InvocationTargetException ex) {
+                if (ex.getCause() instanceof AltInstanceProvidedException) {
+                    if (toClass.isAssignableFrom(((AltInstanceProvidedException) ex.getCause()).getInstance().getClass())) {
+                        return (T) ((AltInstanceProvidedException) ex.getCause()).getInstance();
+                    } else {
+                        throw new TypeMismatchException("Alt instance with wrong type", ex.getCause());
+                    }
                 }
-            } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException ex) {
             }
         }
         if (NestList.class.isAssignableFrom(toClass)) {
@@ -77,5 +79,5 @@ public final class NestString extends NestValueAdapter<String> implements NestJs
         obj.put("str", super.value);
         return obj;
     }
-    
+
 }
