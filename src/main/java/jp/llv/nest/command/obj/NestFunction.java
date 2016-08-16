@@ -23,6 +23,7 @@
  */
 package jp.llv.nest.command.obj;
 
+import java.util.Objects;
 import jp.llv.nest.command.Context;
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.InternalException;
@@ -32,20 +33,20 @@ import jp.llv.nest.command.token.Token;
  *
  * @author toyblocks
  */
-public class NestFunction<S extends NestCommandSender<?>> extends NestObjectAdapter<Void> implements NestExecutable<S, Void> {
+public class NestFunction<S extends NestCommandSender<?>> extends ContextExecutable<S, Void> implements NestExecutable<S, Void> {
 
-    private final Context context;
     private final Token command;
 
     public NestFunction(Context context, Token command) {
-        this.context = context;
+        super(context);
+        Objects.requireNonNull(command);
         this.command = command;
     }
     
     @Override
-    public NestObject<?> execute(Context<? extends S> context, NestObject<?>... args) throws CommandException {
+    public NestObject<?> executeIn(Context<? extends S> context, NestObject<?>... args) throws CommandException {
         try {
-            return this.command.execute(context.setBinding(this.context.getBinding())).getResultNow();
+            return this.command.execute(context).getResultNow();
         } catch (CommandException ex) {
             throw ex;
         } catch (Exception ex) {
