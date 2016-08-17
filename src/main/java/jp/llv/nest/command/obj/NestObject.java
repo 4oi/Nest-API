@@ -23,6 +23,7 @@
  */
 package jp.llv.nest.command.obj;
 
+import java.lang.reflect.Array;
 import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.CommandException;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
@@ -52,6 +53,22 @@ public interface NestObject<E> {
         } else {
             return from.to(toClass);
         }
+    }
+    
+    public static <T> T[] unwrap(NestObject<T>[] objects, Class<T> clazz) {
+        T[] a = (T[]) Array.newInstance(clazz, objects.length);
+        for (int i = 0; i < objects.length; i++) {
+            a[i] = objects[i].unwrap();
+        }
+        return a;
+    }
+    
+    public static Object[] unwrap(NestObject[] objects) {
+        Object[] a = new Object[objects.length];
+        for (int i = 0; i < objects.length; i++) {
+            a[i] = objects[i].unwrap();
+        }
+        return a;
     }
     
 }
