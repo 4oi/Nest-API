@@ -43,7 +43,7 @@ public interface NestObject<E> {
         throw new UnsupportedOperationException();
     }
     
-    public static <T extends NestObject<?>> T to(@Nullable NestObject<?> from,@NotNull  Class<T> toClass) throws CommandException {
+    public static <T extends NestObject<?>> T to(@Nullable NestObject<?> from,@NotNull  Class<T> toClass) throws TypeMismatchException {
         if (from == null) {
             if (toClass == NestString.class) {
                 return (T) new NestString("nil");

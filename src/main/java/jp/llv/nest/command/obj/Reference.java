@@ -23,6 +23,7 @@
  */
 package jp.llv.nest.command.obj;
 
+import java.util.Objects;
 import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import jp.llv.nest.command.exceptions.UndefinedVariableException;
@@ -58,7 +59,11 @@ public class Reference implements NestObject<Void> {
 
     @Override
     public String toString() {
-        return "ref\"" + this.key + "\"@" + this.binding.toString();
+        try {
+            return NestObject.to(binding.get(key), NestString.class).unwrap();
+        } catch (UndefinedVariableException | TypeMismatchException ex) {
+            return "ref\"" + this.key + "\"@" + this.binding.toString();
+        }
     }
 
 }
