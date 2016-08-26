@@ -111,6 +111,9 @@ public class ParamBindExecutable<S extends NestCommandSender<?>, E> extends Nest
 
     @Override
     public <T> T to(Class<T> toClass) throws TypeMismatchException {
+        if (toClass.isAssignableFrom(this.getClass())) {
+            return (T) this;
+        }
         return this.executable.to(toClass);
     }
 
