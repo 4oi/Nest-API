@@ -36,13 +36,13 @@ import jp.llv.nest.command.exceptions.TypeMismatchException;
  */
 public class ParamBindExecutable<S extends NestCommandSender<?>, E> extends NestObjectAdapter<E> implements NestExecutable<S, E> {
 
-    private final String[] args;
+    private final String[] params;
     private final NestExecutable<S, E> executable;
 
-    public ParamBindExecutable(NestExecutable<S, E> executable, String... args) {
-        Objects.requireNonNull(args);
+    public ParamBindExecutable(NestExecutable<S, E> executable, String... params) {
+        Objects.requireNonNull(params);
         Objects.requireNonNull(executable);
-        this.args = args;
+        this.params = params;
         this.executable = executable;
     }
 
@@ -53,23 +53,23 @@ public class ParamBindExecutable<S extends NestCommandSender<?>, E> extends Nest
                     ? ((ContextExecutable) this.executable).getContext().newInner()
                     : context.newInner();
 
-            if (this.args.length > args.length) {
+            if (this.params.length >= args.length) {
                 throw new InsufficientArgumentsException();
-            } else if (this.args.length == 0) {
+            } else if (this.params.length == 0) {
                 //do not bind anything
-            } else if (this.args.length == args.length) {
-                for (int i = 0; i < this.args.length; i++) {
-                    c.getBinding().set(this.args[i], args[i]);
+            } else if (this.params.length + 1 == args.length) {
+                for (int i = 0; i < this.params.length; i++) {
+                    c.getBinding().set(this.params[i], args[i + 1]);
                 }
             } else {
-                for (int i = 0; i < this.args.length - 1; i++) {
-                    c.getBinding().set(this.args[i], args[i]);
+                for (int i = 0; i < this.params.length - 1; i++) {
+                    c.getBinding().set(this.params[i], args[i + 1]);
                 }
-                NestObject<?>[] varargs = new NestObject<?>[args.length - this.args.length + 1];
+                NestObject<?>[] varargs = new NestObject<?>[args.length - this.params.length];
                 for (int i = 0; i < varargs.length; i++) {
-                    varargs[i] = args[this.args.length + i - 1];
+                    varargs[i] = args[this.params.length + i];
                 }
-                c.getBinding().set(this.args[this.args.length - 1], new NestList(varargs));
+                c.getBinding().set(this.params[this.params.length - 1], new NestList(varargs));
             }
 
             if (this.executable instanceof ContextExecutable) {
