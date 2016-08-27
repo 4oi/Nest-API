@@ -32,8 +32,6 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 import jp.llv.nest.command.Type;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  *
@@ -112,19 +110,6 @@ public final class NestList extends  NestValueAdapter<List<NestObject<?>>> {
 
     public void forEach(Consumer<? super NestObject<?>> action) {
         value.forEach(action);
-    }
-    
-    /* NOT @Override NestJson.Jsonable */
-    public JSONArray toJson() {
-        JSONArray array = new JSONArray();
-        this.forEach(obj -> {
-            if (obj == null) {
-                array.put(JSONObject.NULL);
-            } else {
-                array.put(NestJson.toJson(obj));
-            }
-        });
-        return array;
     }
     
 }

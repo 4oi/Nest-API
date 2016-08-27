@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>jp.llv</groupId>
     <artifactId>nest-api</artifactId>
-    <version>0.7.0-beta</version>
+    <version>0.8.0-beta</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -59,12 +59,6 @@
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>4.1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20160212</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

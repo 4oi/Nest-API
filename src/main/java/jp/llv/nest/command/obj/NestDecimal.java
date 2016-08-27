@@ -26,14 +26,13 @@ package jp.llv.nest.command.obj;
 import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 /**
  *
  * @author toyblocks
  */
 @Type("Decimal")
-public final class NestDecimal extends NestNumber<Double> implements Comparable<NestDecimal>, NestJson.Jsonable {
+public final class NestDecimal extends NestNumber<Double> implements Comparable<NestDecimal> {
     
     private final double value;
 
@@ -47,10 +46,6 @@ public final class NestDecimal extends NestNumber<Double> implements Comparable<
         } catch(NumberFormatException ex) {
             throw new TypeMismatchException("Invalid number format", ex);
         }
-    }
-
-    private NestDecimal(JSONObject json) {
-        this(json.getDouble("num"));
     }
     
     @Override
@@ -91,13 +86,6 @@ public final class NestDecimal extends NestNumber<Double> implements Comparable<
     @Override
     public int compareTo(NestDecimal o) {
         return Double.compare(this.value, o.value);
-    }
-
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("num", this.value);
-        return json;
     }
     
 }

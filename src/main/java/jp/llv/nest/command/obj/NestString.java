@@ -29,21 +29,16 @@ import jp.llv.nest.command.Type;
 import jp.llv.nest.command.exceptions.AltInstanceProvidedException;
 import jp.llv.nest.command.exceptions.TypeMismatchException;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 /**
  *
  * @author toyblocks
  */
 @Type("String")
-public final class NestString extends NestValueAdapter<String> implements NestJson.Jsonable {
+public final class NestString extends NestValueAdapter<String> {
 
     public NestString(@NotNull String value) {
         super(value);
-    }
-
-    private NestString(JSONObject json) {
-        super(json.getString("str"));
     }
 
     @Override
@@ -74,13 +69,6 @@ public final class NestString extends NestValueAdapter<String> implements NestJs
             return (T) new NestList(this);
         }
         throw new TypeMismatchException(this, toClass);
-    }
-
-    @Override
-    public JSONObject toJson() {
-        JSONObject obj = new JSONObject();
-        obj.put("str", super.value);
-        return obj;
     }
 
 }

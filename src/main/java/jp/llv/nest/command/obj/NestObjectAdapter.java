@@ -51,8 +51,6 @@ public abstract class NestObjectAdapter<E> implements NestObject<E> {
             return (T) new NestString(this.toString());
         } else if (toClass == NestList.class) {
             return (T) new NestList(this);
-        } else if (toClass == NestJson.class && this instanceof NestJson.Jsonable) {
-            return (T) NestJson.toNestJson(this);
         }
         throw new TypeMismatchException(this, toClass);
     }
